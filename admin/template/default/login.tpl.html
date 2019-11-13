@@ -1,0 +1,138 @@
+<!--{include common/meta.inc}-->
+    <link href="{__CTPL_URL__}css/login.min.css" rel="stylesheet">
+    <style type="text/css" media="screen">
+        .gohome {
+            display: none;
+        }
+        .signinpanel {
+            position: absolute;
+            width: 320px;
+            right: 200px;
+            top: 50px;
+        }
+        .signinpanel #login-form {
+            padding: 30px 40px;
+        }
+        #login-form input.form-control {
+            background: rgba(255,255,255, 0.7);
+            border-radius: 2px;
+            height: 32px;
+            line-height: 32px;
+            font-size: 13px;
+            margin-top: 20px;
+        }
+        #login-form h4 {
+            font-size: 17px;
+            font-weight: 100;
+            text-align: center;
+        }
+        #login-form .btn-success {
+            background-color: #0F5DB8;
+            border-color: #0F5DB8;
+        }
+        .form-control:focus, .single-line:focus {
+            border-color: #0F5DB8 !important;
+        }
+        #login_title {
+            font-size: 28px;
+            font-weight: 300;
+            text-align: center;
+        }
+    </style>
+    <script>
+        if (window.top !== window.self) {
+            window.top.location = window.location;
+        }
+    </script>
+</head>
+
+<body class="signin">
+    <div class="signinpanel">
+        <h4 class="no-margins" id="login_title">{$base['name']}</h4>
+        <br>
+        <br>
+        <form method="post" id="login-form" action="{url:'login'}" autocomplete="off">
+            <input type="text"     id="admin_account" name="adm[admin_account]" class="form-control uname"   placeholder="用户名"/>
+            <input type="password" id="admin_passwd" name="adm[admin_passwd]" class="form-control pword m-b" placeholder="密码" />
+            <button type="button" class="btn btn-success btn-block" id="login-btn">登录</button>
+        </form>
+    </div>
+    <!--{include common/js.inc}-->
+    <!-- <script src="http://static.geetest.com/static/tools/gt.js"></script> -->
+    <script>
+        if (top.location.href != location.href) {
+            top.location.href = location.href;
+        }
+
+        var cur_dialog = null,
+            verfiy_success = true,
+            handlerEmbed = function (captchaObj) {
+
+                captchaObj.appendTo("#embed-captcha");
+
+                captchaObj.onReady(function () {
+                    $('#loading-text').hide();
+                });
+
+                captchaObj.onSuccess(function () {
+                    var validate = captchaObj.getValidate();
+                    $('#geetest_challenge').val(validate.geetest_challenge);
+                    $('#geetest_validate').val(validate.geetest_validate);
+                    $('#geetest_seccode').val(validate.geetest_seccode);
+
+                    window.verfiy_success = false;
+                    window.cur_dialog.close();
+                    RGX.exec_post('#login-form');
+                });
+            },
+            show_capcha = function () {
+                $.ajax({
+                    url: "{url:'@misc-geetest-pf-1-time~'}" + (new Date()).getTime(),
+                    type: "get",
+                    dataType: "json",
+                    success: function (data) {
+                        window.cur_dialog = $.dialog({
+                            fixed: false,
+                            drag: false,
+                            cache: false,
+                            min: false,
+                            max: false,
+                            title: '完成下方验证, 以继续下一步',
+                            lock: false,
+                            fixed: true,
+                            padding: 0,
+                            width: '420px',
+                            height: '300px',
+                            content: '<div class="verify-code"><div id="loading-text">加载中 ...</div><div id="embed-captcha"></div></div>',
+                            skin: 'discuz'
+                        });
+                        initGeetest({
+                            gt: data.gt,
+                            challenge: data.challenge,
+                            product: "embed",
+                            offline: !data.success
+                        }, handlerEmbed);
+                    }
+                });
+            };
+
+        $(function() {
+
+            $('#login-btn').on('click', function() {
+                if ($('#adm_name').val() == '') {
+                    RGX.tips('请输入账号', '#adm_name');
+                }
+                else if ($('#adm_passwd').val() == '') {
+                    RGX.tips('请输入密码', '#adm_passwd');
+                }
+                else if (!verfiy_success) {
+                    show_capcha();
+                }
+                else {
+                    RGX.exec_post('#login-form');
+                }
+            });
+        });
+    </script>
+</body>
+<!--{include common/footer.inc}-->

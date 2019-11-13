@@ -1,0 +1,123 @@
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>
+                    <i class="fa fa-cog"></i>
+                    基本信息
+                </h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">订单编号</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="order_no" name="data[order_no]" value="{$data['order_no'] ?: ''}" maxlength="255"  placeholder="订单编号" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">租车人</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="order_user_fullname" name="data[order_user_fullname]" value="{$data['order_user_fullname'] ?: ''}" maxlength="255" placeholder="订单名称" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">租车人电话</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="order_user_mobile" name="data[order_user_mobile]" value="{$data['order_user_mobile'] ?: ''}" maxlength="255" placeholder="租车人电话" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">用户学号</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="order_user_sname" name="data[order_user_sno]" value="{$data['order_user_sno'] ?: ''}" maxlength="255" placeholder="用户学号" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">用户学校</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="order_user_sname" name="data[order_user_sname]" value="{$data['order_user_sname'] ?: ''}" maxlength="255" placeholder="用户学校" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">推荐人</label>
+                            <div class="col-sm-9">
+                                <select name="data[order_agent_id]" class="form-control select-agent">
+                                    <option value="0">--请选择--</option>
+                                    {foreach $agents $k $v}
+                                    <option value="{$v['agent_id']}" {if $data['order_agent_id'] == $v['agent_id']} selected="selected" {/if}>{$v['agent_fullname']}</option>
+                                    {/foreach}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">订单名称</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="order_title" name="data[order_title]" value="{$data['order_title'] ?: ''}" maxlength="255" placeholder="订单名称" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">订单金额</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="order_amount" name="data[order_amount]" value="{$data['order_amount'] ?: ''}" maxlength="255" placeholder="订单名称" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">取车日期</label>
+                            <div class="col-sm-9">
+                                <div class="input-group date">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input type="text" class="form-control datepicker" name="data[order_start_time]" id="order_start_time" value="{if $data['order_start_time']}{$data['order_start_time']}{/if}" placeholder="取车日期" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">还车日期</label>
+                            <div class="col-sm-9">
+                                <div class="input-group date">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input type="text" class="form-control datepicker" name="data[order_end_time]" id="order_end_time" value="{if $data['order_end_time']}{$data['order_end_time']}{/if}" placeholder="取车日期" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">租车天数</label>
+                            <div class="col-sm-9">
+                                <div class="input-group date">
+                                    <input type="text" class="form-control" name="data[order_duration_days]" id="order_duration_days" value="{if $data['order_duration_days']}{$data['order_duration_days']}{/if}" placeholder="租车天数" readonly="readonly" />
+                                    <span class="input-group-addon">天</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">订单状态</label>
+                            <div class="col-sm-9">
+                                <select name="data[order_status]" class="form-control select-customer">
+                                    <option value="0">--请选择--</option>
+                                    {foreach $order_status $k $v}
+                                    <option value="{$k}" {if $data['order_status'] == $k} selected="selected" {/if}>{$v}</option>
+                                    {/foreach}
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

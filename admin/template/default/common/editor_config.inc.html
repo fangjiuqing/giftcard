@@ -1,0 +1,34 @@
+    'themeType' : 'simple',
+    'items'             : [
+        'source', 'bold', 'justifyleft', 'justifycenter', 'blockquote',
+        'formatblock',
+        'insertorderedlist', 'insertunorderedlist', 'table', 'pagebreak',
+        'quickformat', 'fullscreen'
+    ],
+    'resizeType'        : 1,
+    'allowFileUpload'   : false,
+    'allowImageUpload'  : false,
+    'allowFileManager'  : false,
+    'allowFlashUpload'  : false,
+    'allowMediaUpload'  : false,
+    'allowFileManager'  : false,
+    'pasteType'         : 2,
+    'htmlTags'          : {
+
+        div : [
+                'align', 'style'
+        ],
+        table: [
+                'border', 'cellspacing', 'cellpadding', 'width', 'height', 'align', 'bordercolor'
+        ],
+        'td,th': [
+                'align', 'valign', 'width', 'height', 'colspan', 'rowspan', 'bgcolor'
+        ],
+        img : ['src', 'data-src', 'width', 'height', 'border', 'alt', 'title', 'align', 'style'],
+        p   : ['align', 'style'],
+        'ol,ul,li,blockquote,h1,h2,h3,h4,h5,h6' : [
+            'align'
+        ],
+        hr : ['class', '.page-break-after'],
+        'br,tbody,tr,strong,b,sub,sup,em,i,u,strike,s,del' : []
+    }

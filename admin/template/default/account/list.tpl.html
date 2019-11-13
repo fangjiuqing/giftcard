@@ -1,0 +1,63 @@
+<!--{include common/meta.inc}-->
+<link rel="stylesheet" href="{__CTPL_URL__}css/plugins/datapicker/datepicker3.css">
+</head>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <!--{include common/crumb.inc}-->
+                    <div class="ibox-content">
+                        <!--{include account/filter.inc}-->
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>登录账户</th>
+                                        <th>管理昵称</th>
+                                        <th width="15%" class="text-center">权限组别</th>
+                                        <th width="15%" class="text-center">创建日期</th>
+                                        <th width="15%" class="text-center">最近登录</th>
+                                        <th width="80" class="text-center">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {if empty($list)}
+                                    <tr class="data-empty">
+                                        <td class="text-center" colspan="6">
+                                            <small>暂无数据</small>
+                                        </td>
+                                    </tr>
+                                    {/if}
+                                    {foreach $list $k $v}
+                                    <tr id="item-{$v['admin_id']}">
+                                        <td>{$v['admin_account']}</td>
+                                        <td>{$v['admin_nickname']}</td>
+                                        <td class="text-center">{$v['group_name']}</td>
+                                        <td class="text-center">{$v['admin_create_date']|date,Y-m-d}</td>
+                                        <td class="text-center">{$v['admin_lastlogin_date']|date,Y-m-d H:i}</td>
+
+                                        <td class="text-center">
+                                            <a class="btn btn-xs btn-success" title="编辑{$v['admin_nickname']}" href="{url:'account-add-id-%d' , $v['admin_id']}"><i class="fa fa-pencil"></i></a>
+                                            &nbsp;
+                                            <a href="{url:'account-del-id-%d' , $v['admin_id']}" data-confirm="操作不可撤销，确认吗？" data-target="#item-{$v['admin_id']}" class="btn btn-xs btn-danger btn-delete">
+                                                <i class="fa fa-trash-o"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {/foreach}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--{include common/pagination.inc}-->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--{include common/js.inc}-->
+    <script src="{__CTPL_URL__}js/filter.js"></script>
+</body>
+
+<!--{include common/footer.inc}-->

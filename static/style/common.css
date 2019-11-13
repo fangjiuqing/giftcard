@@ -1,0 +1,77 @@
+/* Logo 字体 */
+/*@font-face {
+  font-family: "iconfont logo";
+  src: url('https://at.alicdn.com/t/font_985780_km7mi63cihi.eot?t=1545807318834');
+  src: url('https://at.alicdn.com/t/font_985780_km7mi63cihi.eot?t=1545807318834#iefix') format('embedded-opentype'),
+    url('https://at.alicdn.com/t/font_985780_km7mi63cihi.woff?t=1545807318834') format('woff'),
+    url('https://at.alicdn.com/t/font_985780_km7mi63cihi.ttf?t=1545807318834') format('truetype'),
+    url('https://at.alicdn.com/t/font_985780_km7mi63cihi.svg?t=1545807318834#iconfont') format('svg');
+}*/
+body {
+    background: #ebebeb;
+}
+.placeholder {
+    /*margin: 5px;*/
+    padding: 0 10px;
+    background-color: #29b7b7;
+    height: 2.4em;
+    line-height: 2.4em;
+    text-align: center;
+    color: #fff;
+    /*font-weight: bold;*/
+}
+.placeholder a {
+    color: #fff;
+    cursor: pointer;
+}
+.fl {
+    float: left;
+}
+.fr {
+    float: right;
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 26px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.wraper {
+    margin: 10px;
+}
+
+.mb20 {
+    margin-bottom: 20px;
+}
+.mt20 {
+    margin-top: 10px;
+}
+
+.weui-btn_primary {
+    background-color: #f6b340;
+    margin-top: 10px;
+}
+
+.order-waiting {
+    color: #ff7e00;
+    font-weight: bold;
+}
+.order-inusing {
+    color: #23b7b7;
+    font-weight: bold;
+}
+.order-complate {
+    color: green;
+    font-weight: bold;
+}
+.order-confirm {
+    color: green;
+    font-weight: bold;
+}
+.order-closed {
+    color: #bb0000;
+    font-weight: bold;
+}

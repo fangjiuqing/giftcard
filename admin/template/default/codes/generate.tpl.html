@@ -1,0 +1,198 @@
+<!--{include common/meta.inc}-->
+<style type="text/css">
+    .generate-code {
+        background-color: #cfcfcf;
+        cursor: pointer;
+        border: none
+    }
+    #code-list span {
+        display: inline-block;
+        margin-top:10px;
+        margin-right: 10px;
+    }
+</style>
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <form action="{url:'@%s-save' , $_MODULE}" method="post" id="sform" class="form-horizontal">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>
+                                <i class="fa fa-cog"></i>
+                                参数配置
+                            </h5>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">生成规则</label>
+                                        <div class="col-sm-9">
+                                            <select name="data[code_rule]" id="code_rule" class="form-control">
+                                                <option value="0">--请选择--</option>
+                                                <option value="1">纯数字</option>
+                                                <option value="2">纯英文</option>
+                                                <option value="3">数英组合</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">兑码长度</label>
+                                        <div class="col-sm-9">
+                                            <input type="number" class="form-control" name="data[code_length]" id="code_length" placeholder="兑码长度.为避免重复请确保10位以上长度" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">生成数量</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                <input type="number" class="form-control" name="data[code_nums]" id="code_nums" placeholder="生成数量" />
+                                                <span class="input-group-addon generate-code">开始生成</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>
+                                <i class="fa fa-eye"></i>
+                                生成预览
+                            </h5>
+                            <a href="javascript:;" class="btn btn-xs btn-success pull-right" id="download">
+                                <i class="fa fa-download"></i>确认并下载
+                            </a>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-sm-12" id="code-list"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!--{include common/js.inc}-->
+    <script src="http://danml.com/js/download2.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            $('.generate-code').on('click' , function() {
+                var rule = parseInt($('#code_rule').find("option:selected").val());
+                var code_length = parseInt($('#code_length').val());
+                var code_nums = parseInt($('#code_nums').val());
+                if ( rule && code_length && code_nums ) {
+                    if ( code_nums > 1000 ) {
+                        alert('一次最多生成1000个');
+                        return false;
+                    }
+                    generate ( rule , code_length , code_nums );
+                }else{
+                    alert('请按提示完整配置参数后再点击生成');
+                }
+
+            });
+
+            $('#download').on('click' , function() {
+                var codes = $('#code-list span');
+                if ( codes.length > 0 ) {
+                    var post_code = new Array();
+                    $.each(codes , function(k,v) {
+                        post_code.push($(v).text());
+                    });
+
+                    $.ajax({
+                        url: "{url:'codes-save-~'}",
+                        type: "POST",
+                        dataType: 'json',
+                        processData: false,
+                        data: "data=" + JSON.stringify(post_code),
+                        success: function(data, textStatus, xhr) {
+                            console.log(data)
+                            if ( data.code == 200 ) {
+                                alert("操作成功，开始下载...");
+
+                                var _codes = $.parseJSON(data.data) , _codes_str = '';
+                                $.each(_codes , function(k,v) {
+                                    _codes_str += v + '\r\n';
+                                });
+                                download(_codes_str, "Codes.txt", "text/plain");
+
+                                $('#download').hide();
+                            }else{
+                                alert("操作失败");
+                            }
+                        },
+                        error: function(xhr, textStatus, errorThrown) {
+                            alert('请稍后重试');
+                        }
+                    });
+                    //download(str, "Codes.txt", "text/plain");
+                }else{
+                    alert('请先生成')
+                }
+            });
+
+            RGX.post('#sform');
+        });
+
+        /**
+         * [generate description]
+         * @param  {[type]} rule        [description]
+         * @param  {[type]} code_length [description]
+         * @param  {[type]} code_nums   [description]
+         * @return {[type]}             [description]
+         */
+        function generate ( rule , code_length , code_nums ) {
+            var rule_number = '0123456789';
+            var rule_char   = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+            // 纯数字
+            if ( rule == 1 ) {
+                var gene = new Array(code_length + 6).join(rule_number);
+            }
+            // 纯英文
+            if ( rule == 2 ) {
+                var gene = new Array(code_length + 6).join(rule_char);
+            }
+            // 数字英文组合
+            if ( rule == 3 ) {
+                var gene = new Array(code_length + 6).join(rule_number + rule_char);
+            }
+
+            var code_list = '';
+            for ( var i = code_nums; i > 0; i-- ) {
+                var code  = shuffle(Array.from(gene)).join('');
+                var start = code.length - code_length;
+                var final_code = code.substr(start,code_length);
+                code_list += '<span class="btn btn-xs btn-success">' + final_code + '</span>';
+            }
+            $('#code-list').empty().html(code_list);
+        }
+
+        function shuffle(array) {
+            for (var i = array.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+            }
+            return array;
+        }
+
+    </script>
+</body>
+<!--{include common/footer.inc}-->

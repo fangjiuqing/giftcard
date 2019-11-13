@@ -1,0 +1,19 @@
+{if !empty($filter['configs'])}
+<div id="filter" class="row">
+    <!--{foreach $filter['configs'] $k $v}-->
+        <!--{if $v['type'] == 'select'}-->
+            <!--{include common/filter_select.inc}-->
+        <!--{elif $v['type'] == 'checkbox'}-->
+            <!--{include common/filter_checkbox.inc}-->
+        <!--{elif $v['type'] == 'radio'}-->
+            <!--{include common/filter_radio.inc}-->
+        <!--{/if}-->
+    <!--{/foreach}-->
+    <div class="clearfix"></div>
+    <div class="filter_row text-right">
+        <a href="javascript:;" class="btn btn-success btn-xs" id="filter_search_btn">
+            <i class="fa fa-search"></i>  搜索
+        </a>
+    </div>
+</div>
+{/if}

@@ -1,0 +1,38 @@
+<div class="filter_row filter_{$v['input'] ? 'select_input' : 'select'}">
+    <div class="input-group">
+    {if $v['input']}
+        <div class="input-group-btn">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <!--{if $filter['values'][$v['code']]}-->
+                <span id="{$v['code']}_label" class="search_type" data-key="{$v['code']}" data-val="{$filter['values'][$v['code']]}">{$v['options'][$filter['values'][$v['code']]]}</span>
+                <!--{else}-->
+                <span id="{$v['code']}_label" class="search_type" data-key="{$v['code']}" data-val="{$v['default']['value']}">{$v['default']['label']}</span>
+                <!--{/if}-->
+                &nbsp;
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <!--{foreach $v['options'] $key $opt}-->
+                <li><a href="javascript:;" class="dpm_opt" data-target="#{$v['code']}_label" data-val="{$key}">{$opt}</a></li>
+                <!--{/foreach}-->
+            </ul>
+        </div>
+        <input type="text" class="form-control search_key" id="{$v['input']['code']}_value" data-key="{$v['input']['code']}" value="{$filter['values'][$v['input']['code']]}" placeholder="{$v['input']['placeholder']}">
+    {else}
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <!--{if $filter['values'][$v['code']]}-->
+            <span id="{$v['code']}_label" class="search_type" data-key="{$v['code']}" data-val="{$filter['values'][$v['code']]}">{$v['options'][$filter['values'][$v['code']]]}</span>
+            <!--{else}-->
+            <span id="{$v['code']}_label" class="search_type" data-key="{$v['code']}" data-val="{$v['default']['value']}">{$v['default']['label']}</span>
+            <!--{/if}-->
+            &nbsp;
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <!--{foreach $v['options'] $key $opt}-->
+            <li><a href="javascript:;" class="dpm_opt" data-target="#{$v['code']}_label" data-val="{$key}">{$opt}</a></li>
+            <!--{/foreach}-->
+        </ul>
+    {/if}
+    </div>
+</div>

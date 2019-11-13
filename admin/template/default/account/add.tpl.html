@@ -1,0 +1,163 @@
+<!--{include common/meta.inc}-->
+<link href="{__CTPL_URL__}css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+<link href="{__CTPL_URL__}css/album.css" rel="stylesheet">
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <form action="{url:'@%s-save' , $_MODULE}" method="post" id="sform" class="form-horizontal">
+            <input type="hidden" name="data[admin_id]" value="{$data['admin_id']|int}">
+            <input type="hidden" name="data[admin_salt]" value="{$data['admin_salt']}">
+            <input type="hidden" name="data[admin_create_date]" value="{if $data['admin_create_date']} {$data['admin_create_date']}{else}{:REQUEST_TIME}{/if}">
+            <input type="hidden" name="data[admin_lastlogin_date]" value="{if $data['admin_lastlogin_date']} {$data['admin_lastlogin_date']}{else}{:REQUEST_TIME}{/if}">
+
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>
+                        <i class="fa fa-cog"></i>
+                        基本信息
+                    </h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="row row-dashed">
+                        <div class="col-sm-8">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">登录帐号</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="admin_account" name="data[admin_account]" value="{$data['admin_account'] ?: ''}" maxlength="255" {if $data['admin_account']} readonly="readonly" {/if} />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">用户昵称 {$login['group_id']}</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="admin_nickname" name="data[admin_nickname]" value="{$data['admin_nickname'] ?: ''}" maxlength="255" />
+                                </div>
+                            </div>
+
+                            {if $login['admin_group_id'] == '1'}
+
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">管理组别</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" name="data[admin_group_id]">
+                                    <option value="0">--请选择--</option>
+                                    <!--{foreach $admin_group $k $v}-->
+                                    <option value="{$v['group_id']}" {if $data['admin_group_id'] == $v['group_id']} selected="selected" {/if}>{$v['group_name']}</option>
+                                    <!--{/foreach}-->
+                                    </select>
+                                </div>
+                            </div>
+                            {/if}
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">登录密码</label>
+                                <div class="col-sm-8">
+                                    <input type="password" class="form-control" id="admin_passwd" name="data[admin_passwd]" placeholder="编辑时留空则不作修改" maxlength="255" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">再次输入</label>
+                                <div class="col-sm-8">
+                                    <input type="password" class="form-control" id="cfm_password" name="data[cfm_password]" placeholder="两次输入必须一致" maxlength="255" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">电子邮箱</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="admin_email" name="data[admin_email]" value="{$data['admin_email'] ?: ''}" maxlength="255" />
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-sm-4 hide">
+                            <div class="form-group">
+                                <img class="add-cover" src="{__UPLOAD_URL__}{$data['admin_avater'] ?: 'avatar/default.png'}" alt="点击上传" title="点击上传" style="width: auto; height: 180px" />
+                                <input type="hidden" name="data[admin_avater]" value="{$data['admin_avater']}">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <button class="btn btn-success pull-right" type="submit">保存内容</button>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!--{include common/js.inc}-->
+    <script src="{__STATIC_URL__}kindeditor/kindeditor-min.js"></script>
+    <script src="{__STATIC_URL__}kindeditor/lang/zh_CN.js"></script>
+    <script src="{__STATIC_URL__}js/md5.min.js"></script>
+    <script src="{__STATIC_URL__}js/spark-md5.min.js"></script>
+    <script src="{__STATIC_URL__}js/images.js"></script>
+    <script>
+        var
+        images = new Object(),
+
+        /**
+        * 图片插件初始化
+        */
+        init_album = function (ele_id, images) {
+            RGXAlbum.init({
+                upload  : {
+                    url         : '{url:'upload-image'}',
+                    del_url     : '',
+                    allows      : ['image/png', 'image/gif', 'image/jpeg'],
+                    max         : 20480,
+                    multiple    : true,
+                    auto        : true,
+                    extra       : {
+                        channel_id: 2,
+                    },
+                    failure     : function(file, msg) {
+                        RGX.msg(file.name + ' ' + msg);
+                    }
+                },
+
+                album: {
+                    wrapper_id  : ele_id || '#album_wrapper',
+                    click       : function(d) {},
+                    thumb       : '300x300',
+                    has_cut     : false,
+                    // 删除文件
+                    delete_file : function (d) {
+                        if ($('#cert_cover').val() == d) {
+                            $('#cert_cover').val('');
+                        }
+                    },
+                    // 设置封面
+                    set_cover   : function (d) {
+                        $('.rgx-album-images li.active').removeClass('active');
+                        $('img[data-source="' + d + '"]').parent().addClass('active');
+                        $('#cert_cover').val(d);
+                    },
+                    images      : (function() {
+                        var ret = [],
+                            files = images || []; //($('#imgarr').val() || "").split('#');
+                        for (var i = 0, url; url = files[i]; i++) {
+                            ret.push({
+                                url     : url,
+                                key     : url,
+                                desc    : ''
+                            });
+                        }
+                        return ret;
+                    })()
+                }
+            });
+        };
+        $(function() {
+            RGX.post('#sform');
+
+            var editor = KindEditor.create('textarea[id="solution_content"]', {
+                 <!--{include common/editor_config.inc}-->
+            });
+
+        });
+    </script>
+</body>
+
+<!--{include common/footer.inc}-->

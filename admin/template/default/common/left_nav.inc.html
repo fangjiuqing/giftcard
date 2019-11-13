@@ -1,0 +1,44 @@
+<nav class="navbar-default navbar-static-side" role="navigation" style="width: 190px;">
+    <div class="nav-close">
+        <i class="fa fa-times-circle"></i>
+    </div>
+    <div class="sidebar-collapse">
+        <ul class="nav" id="side-menu">
+            <li class="nav-header" style="text-align: center">
+                <div class="dropdown profile-element">
+                    <a href="javascript:;" data-href="{url:'account-add-id-%d' , $login['admin_id']}">
+                        <span class="clear">
+                           <span class="block m-t-xs"><strong class="font-bold" style="font-size: 14px;">兑码管理</strong></span>
+                           <span class="text-muted text-xs block" style="font-size: 12px;">&nbsp;</span>
+                        </span>
+                    </a>
+                </div>
+                <div class="logo-element">码</div>
+            </li>
+            {foreach $navs $k $v}
+                <!--{if !empty($v['urls'])}-->
+                <li>
+                    <a href="javascript:;">
+                        <span class="icon-span"><i class="{$v['icon']}"></i></span>
+                        <span class="nav-label">{$v['name']}</span>
+                    </a>
+                    <ul class="nav nav-second-level">
+                        {foreach $v['urls'] $sk $sv}
+                        <li>
+                            <a class="J_menuItem" href="{url:$sv['url']}" data-index="{$sk}">{$sv['name']}</a>
+                        </li>
+                        {/foreach}
+                    </ul>
+                </li>
+                <!--{else}-->
+                <li>
+                    <a class="J_menuItem" href="{url:$v['url']}">
+                        <span class="icon-span"><i class="{$v['icon']}"></i></span>
+                        <span class="nav-label">{$v['name']}</span>
+                    </a>
+                </li>
+                <!--{/if}-->
+            {/foreach}
+        </ul>
+    </div>
+</nav>

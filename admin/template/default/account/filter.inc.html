@@ -1,0 +1,75 @@
+<div class="row row-margin-top">
+
+    <div class="col-sm-4">
+        <div class="form-group">
+            <label class="col-sm-2 control-label text-center">账号昵称</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control label-opt" data-key="nick" placeholder="登录账号，用户昵称" value="{$filter['nick']}">
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-8">
+        <div class="form-group">
+            <label class="col-sm-1 control-label text-center">创建日期</label>
+            <div class="col-sm-11">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="input-group date">
+                            <input type="text" class="form-control datepicker label-opt" data-key="sdate" placeholder="开始时间" value="{$filter['sdate']}" />
+                            <span class="input-group-addon">至</span>
+                            <input type="text" class="form-control datepicker label-opt" data-key="edate" placeholder="结束时间" value="{$filter['edate']}" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row row-margin-top">
+    <div class="col-sm-4">
+        <div class="form-group">
+            <label class="col-sm-2 control-label text-center">权限组别</label>
+            <div class="col-sm-10">
+                <select class="form-control label-opt" data-key="groups">
+                    <option value="0">全部</option>
+                    <!--{foreach $filter_groups $k $v}-->
+                    <option value="{$k}" {if $filter['groups'] == $k} selected="selected"{/if}>{$v}</option>
+                    <!--{/foreach}-->
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="form-group">
+            <label class="col-sm-1 control-label text-center">登录日期</label>
+            <div class="col-sm-11">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="input-group date">
+                            <input type="text" class="form-control datepicker label-opt" data-key="lsdate" placeholder="开始时间" value="{$filter['lsdate']}" />
+                            <span class="input-group-addon">至</span>
+                            <input type="text" class="form-control datepicker label-opt" data-key="ledate" placeholder="结束时间" value="{$filter['ledate']}" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row row-margin-top text-center">
+    <div class="col-md-12">
+        <a href="javascript:;" class="btn btn-xs btn-primary pull-right" data-url="tender-list" id="search-btn" style="margin-top:5px;margin-right: 15px;" id="filter_sbtn">
+            <i class="fa fa-search"></i> 搜 索
+        </a>
+
+        <a href="{url:'account-index'}" class="btn btn-xs btn-warning pull-right" style="margin-top:5px;margin-right: 15px;">
+            <i class="fa fa-circle-o"></i> 重 置
+        </a>
+    </div>
+</div>
+<div class="row-margin-top"></div>

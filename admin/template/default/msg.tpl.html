@@ -1,0 +1,30 @@
+<!--{include common/meta.inc}-->
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="middle-box text-center middle-box-lg" style="margin-top:80px">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>操作提示</h5>
+                        </div>
+                        <div class="ibox-content text-center">
+                            <div class="tooltip-demo">
+                                {if is_array($msg)}
+                                {foreach $msg $k $v}
+                                    <p>{$v|html}</p>
+                                {/foreach}
+                                {else}
+                                <p>{$msg|html}</p>
+                                {/if}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<!--{include common/footer.inc}-->

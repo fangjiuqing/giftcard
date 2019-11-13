@@ -1,0 +1,186 @@
+<!--{include common/meta.inc}-->
+</head>
+
+<body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
+    <div id="wrapper">
+        <!--{// S_左侧导航开始 }-->
+        <!--{include common/left_nav.inc}-->
+        <!--{// E_左侧导航开始 }-->
+
+        <!--右侧部分开始-->
+        <div id="page-wrapper" class="gray-bg dashbard-1" style="margin-left:190px;">
+            <div class="row border-bottom">
+                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <ul class="nav navbar-top-links pull-left" id="nav-list">
+                        <!-- <li class="hidden-xs">
+                            <a href="{url:'account-passwd'}" class="J_menuItem" data-index="0">
+                                <i class="fa fa-user"></i>
+                            </a>
+                        </li> -->
+                    </ul>
+                    <div class="navbar-header hide">
+
+                        <form role="search" class="navbar-form-custom" action="" method="get" target="iframe0">
+                            <input type="hidden" name="stype" value="name">
+                            <input type="hidden" name="status" value="4">
+                            <div class="form-group">
+                                <input type="text" placeholder="请输入关键字 …" class="form-control" name="skey" id="top-search">
+                            </div>
+                        </form>
+                    </div>
+                    <ul class="nav navbar-top-links navbar-right">
+                        <li class="dropdown">
+                            <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                                <i class="fa fa-bell"></i> 技术支持
+                            </a>
+                            <ul class="dropdown-menu dropdown-alerts">
+                                <li class="divider"></li>
+                                <li>
+                                    <div class="row">
+                                        <div class="col-md-6 text-center">
+                                            方伟<br/><small>(技术)</small>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <i class="fa fa-qq fa-fw"></i> 123763712
+                                            <br>
+                                            <i class="fa fa-mobile fa-fw"></i> 13611593654
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <li class="divider"></li>
+                                <li>
+                                    <div class="row">
+                                        <div class="col-md-6 text-center">
+                                            陈永培 <br><small>(技术)</small>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <i class="fa fa-qq fa-fw"></i> 10249250261
+                                            <br>
+                                            <i class="fa fa-mobile fa-fw"></i> 15951077382
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-user"></i>  {$login['admin_realname']}admin<span class="caret"></span></a>
+                            <ul role="menu" class="dropdown-menu" style="min-width: 110px;">
+
+                                <li>
+                                    <a href="{url:'account-passwd'}" class="J_menuItem" data-index="0">账号信息</a>
+                                </li>
+                                <li role="separator" class="divider"></li>
+                                <li>
+                                    <a href="{url:'misc-logout'}" class="J_menuItem" data-index="0">注销登录</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </nav>
+            </div>
+            <div class="row content-tabs">
+                <button class="roll-nav roll-left J_tabLeft"><i class="fa fa-backward"></i>
+                </button>
+                <nav class="page-tabs J_menuTabs">
+                    <div class="page-tabs-content">
+                        <a href="javascript:;" class="active J_menuTab" data-id="index_home">首页</a>
+                    </div>
+                </nav>
+                <button class="roll-nav roll-right J_tabRight"><i class="fa fa-forward"></i>
+                </button>
+                <div class="btn-group roll-nav roll-right">
+                    <button class="dropdown J_tabClose" data-toggle="dropdown">关闭操作<span class="caret"></span>
+
+                    </button>
+                    <ul role="menu" class="dropdown-menu dropdown-menu-right">
+                        <li class="J_tabShowActive"><a>定位当前选项卡</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li class="J_tabCloseAll"><a>关闭全部选项卡</a>
+                        </li>
+                        <li class="J_tabCloseOther"><a>关闭其他选项卡</a>
+                        </li>
+                    </ul>
+                </div>
+                <a href="{url:'index-logout'}" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> 退出</a>
+            </div>
+            <div class="row J_mainContent" id="content-main">
+                <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="{url:'codes-index'}" frameborder="0" data-id="index_home" seamless></iframe>
+            </div>
+        </div>
+        <!--右侧部分结束-->
+    </div>
+    <script src="{__CTPL_URL__}js/jquery.min.js?v=2.1.4"></script>
+    <script src="{__CTPL_URL__}js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="{__CTPL_URL__}js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="{__CTPL_URL__}js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="{__CTPL_URL__}js/plugins/layer/layer.min.js"></script>
+    <script src="{__CTPL_URL__}js/hplus.min.js?v=4.1.0"></script>
+    <script src="{__CTPL_URL__}js/contabs.min.js"></script>
+    <script src="{__CTPL_URL__}js/plugins/pace/pace.min.js"></script>
+    <script src="{__STATIC_URL__}js/RGX.lib.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            var nav = {$nav|json,encode},
+                nav_target = [];
+            if ( nav.length > 0 ) {
+                var li = '';
+                $.each(nav , function(k,v) {
+                    li  +=  '<li class="hidden-xs' + ((k==0) ? ' active' : '') + '">';
+                    li  +=      '<a href="javascript:;" class="nav-li" data-key="' + v.name + '">';
+                    //li  +=      '<i class="' + v.icon + '"></i>';
+                    li  +=      v.name;
+                    li  +=      '</a>';
+                    li  +=  '</li>';
+                    nav_target[v.name] = v;
+
+                    // 默认第一个放在左侧的导航
+                    if ( k == 0 ) {
+                        create_left_nav('#side-menu',v);
+                    }
+                });
+                $('#nav-list').html(li);
+            }
+
+            // 往左侧变换导航内容
+            $('#nav-list').on('click' , 'a.nav-li' , function(){
+                var key = $(this).attr('data-key');
+                $('#nav-list').find('li').removeClass('active');
+                $(this).parent().addClass('active');
+                var nav_left = nav_target[key];
+                create_left_nav('#side-menu',nav_left);
+            });
+        });// Jquery End
+
+        function create_left_nav (elm_id , lef_nav) {
+            var li   = '<li class="active">';
+            if ( lef_nav.urls != undefined ) {
+                li  +=      '<a class="J_menuItem" onClick="return false">';
+                li  +=          '<span class="icon-span"><i class="'+lef_nav.icon+'"></i></span>';
+                li  +=          '<span class="nav-label">'+lef_nav.name+'</span>';
+                li  +=          '<span class="fa arrow"></span>';
+                li  +=          '<ul class="nav nav-second-level collapse in" aria-expanded="true" style="">';
+                li  +=      '</a>';
+                $.each(lef_nav.urls , function(k,v) {
+                    if (v) {
+                        li  +=          '<li>';
+                        li  +=               '<a class="J_menuItem" href="'+ RGXLIB.url(v.url)+'" data-index="0">';
+                        li  +=               v.name;
+                        li  +=               '</a>';
+                        li  +=           '</li>';
+                    }
+                });
+                li  +=          '</ul>';
+                li  +=  '</li>';
+            }
+            li  +=  '</li>';
+            $(elm_id).find('li.nav-header').nextAll().remove();
+            $(elm_id).find('li.nav-header').after(li);
+        }
+    </script>
+    </body>
+<!--{include common/footer.inc}-->
+

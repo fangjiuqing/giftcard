@@ -1,0 +1,147 @@
+<!--{include common/meta.inc}-->
+<link href="{__CTPL_URL__}css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+<link href="{__CTPL_URL__}css/album.css" rel="stylesheet">
+<link href="{__CTPL_URL__}css/plugins/select2/select2.min.css" rel="stylesheet">
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <form action="{url:'@%s-usesave' , $_MODULE}" method="post" id="sform" class="form-horizontal">
+            <input type="hidden" name="data[id]" value="{$data['id']|int}" />
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>
+                                <i class="fa fa-cog"></i>
+                                基本信息
+                            </h5>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">兑码编号</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="code" name="data[code]" value="{$code}" maxlength="255"  placeholder="兑码编号" readonly="readonly" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">客户姓名</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="client_name" name="data[client_name]" value="{$data['client_name'] ?: ''}" maxlength="255" placeholder="客户姓名" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">客户电话</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="client_mobile" name="data[client_mobile]" value="{$data['client_mobile'] ?: ''}" maxlength="255" placeholder="客户电话" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">客户其它信息</label>
+                                        <div class="col-sm-9">
+                                            <textarea class="form-control" name="data[client_info]">{$data['client_info']}
+                                            </textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">备注</label>
+                                        <div class="col-sm-9">
+                                            <textarea class="form-control" name="data[remark]">{$data['remark']}
+                                            </textarea>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+                <div class="col-sm-12 text-right">
+                    <button class="btn btn-primary" type="submit">保存内容</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!--{include common/js.inc}-->
+    <script src="{__CTPL_URL__}js/plugins/select2/select2.min.js"></script>
+    <script src="{__STATIC_URL__}kindeditor/kindeditor-min.js"></script>
+    <script src="{__STATIC_URL__}kindeditor/lang/zh_CN.js"></script>
+    <script src="{__STATIC_URL__}js/md5.min.js"></script>
+    <script src="{__STATIC_URL__}js/spark-md5.min.js"></script>
+    <script src="{__STATIC_URL__}js/images.js"></script>
+    <script>
+        var
+        images = new Object(),
+
+        /**
+        * 图片插件初始化
+        */
+        init_album = function (ele_id, images) {
+            RGXAlbum.init({
+                upload  : {
+                    url         : '{url:'upload-image'}',
+                    del_url     : '',
+                    allows      : ['image/png', 'image/gif', 'image/jpeg'],
+                    max         : 20480,
+                    multiple    : true,
+                    auto        : true,
+                    extra       : {
+                        channel_id: 2,
+                    },
+                    failure     : function(file, msg) {
+                        RGX.msg(file.name + ' ' + msg);
+                    }
+                },
+
+                album: {
+                    wrapper_id  : ele_id || '#album_wrapper',
+                    click       : function(d) {},
+                    thumb       : '300x300',
+                    has_cut     : false,
+                    // 删除文件
+                    delete_file : function (d) {
+                        if ($('#cert_cover').val() == d) {
+                            $('#cert_cover').val('');
+                        }
+                    },
+                    // 设置封面
+                    set_cover   : function (d) {
+                        $('.rgx-album-images li.active').removeClass('active');
+                        $('img[data-source="' + d + '"]').parent().addClass('active');
+                        $('#cert_cover').val(d);
+                    },
+                    images      : (function() {
+                        var ret = [],
+                            files = images || []; //($('#imgarr').val() || "").split('#');
+                        for (var i = 0, url; url = files[i]; i++) {
+                            ret.push({
+                                url     : url,
+                                key     : url,
+                                desc    : ''
+                            });
+                        }
+                        return ret;
+                    })()
+                }
+            });
+        };
+
+        $(function() {
+            RGX.post('#sform');
+            $('.select-agent').select2();
+        });
+    </script>
+</body>
+<!--{include common/footer.inc}-->

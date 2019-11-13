@@ -1,0 +1,56 @@
+<!--{if $pobj['total'] && $pobj['max'] > 1}-->
+<ul class="pagination pagination-sm">
+    <!--{if $pobj['prev']}-->
+    <li>
+        <a class="pagination-atag" href="{url:($pobj['url'] . "-pn-%d", $pobj['prev'])}" aria-label="Previous" data-pn="{$pobj['prev']}">
+            <span aria-hidden="true">&laquo;</span>
+        </a>
+    </li>
+    <!--{else}-->
+    <li class="disabled">
+        <a class="pagination-atag" href="javascript:;" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+        </a>
+    </li>
+    <!--{/if}-->
+    <li class="{$pobj['pn'] == 1 ? 'active' : ''}">
+        <a class="pagination-atag" href="{url:($pobj['url'] . "-pn-1")}" data-pn="1">1</a>
+    </li>
+    <!--{foreach $pobj['link'] $k $v}-->
+    <!--{if $v > 1 && $v < $pobj['max']}-->
+    <li class="{$pobj['pn'] == $v ? 'active' : ''}">
+        <a class="pagination-atag" href="{if is_numeric($v)}{url:$pobj['url'] . '-'.$pobj['var'].'-%d' , $v}{else}javascript:void(0);{/if}" data-pn="{$v}">{$v}</a>
+    </li>
+    <!--{/if}-->
+    <!--{/foreach}-->
+    <!--{if $pobj['max'] > 1}-->
+    <li class="{$pobj['pn'] == $pobj['max'] ? 'active' : ''}">
+        <a class="pagination-atag" href="{url:($pobj['url'] . "-pn-%d", $pobj['max'])}" data-pn="{$pobj['max']}">{$pobj['max']}</a>
+    </li>
+    <!--{/if}-->
+    <!--{if $pobj['next']}-->
+    <li>
+        <a class="pagination-atag" href="{url:($pobj['url'] . "-pn-%d", $pobj['next'])}" aria-label="Next" data-pn="{$pobj['next']}">
+            <span aria-hidden="true">&raquo;</span>
+        </a>
+    </li>
+    <!--{else}-->
+    <li class="disabled">
+        <a class="pagination-atag" href="javascript:;" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+        </a>
+    </li>
+    <!--{/if}-->
+    <li class="paging_jump">
+        <div class="input-group">
+            <input type="text" class="form-control paging_pn" value="{$pobj['pn']}"  placeholder="页码" maxlength="5" style="text-align: center" />
+            <span class="input-group-btn">
+                <button style="height: 28px; padding: 2px 5px;margin-top: 0;" class="btn btn-xs btn-info pagination-atag" type="button" data-url="{url:($pobj['url'] . "-pn-~")}" >
+                    GO
+                </button>
+            </span>
+        </div>
+    </li>
+</ul>
+<!--{/if}-->
+<div class="clearfix"></div>

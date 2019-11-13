@@ -1,0 +1,6 @@
+<div class="filter_row filter_checkbox">
+    <a href="javascript:;" class="btn btn-xs btn-default filter-opt {if empty($filter['values'][$v['code']])} active{/if}" data-key="{$v['code']}" data-val="">{$v['label']}</a>
+    <!--{foreach $v['options'] $key $val}-->
+    <a href="javascript:;" class="btn btn-xs btn-default filter-radio filter-opt {if $filter['values'][$v['code']] == $key} active{/if}" data-key="{$v['code']}" data-val="{$key}">{$val}</a>
+    <!--{/foreach}-->
+</div>

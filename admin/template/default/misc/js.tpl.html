@@ -1,0 +1,114 @@
+<!--{include common/meta.inc}-->
+    <link href="{__CTPL_URL__}css/album.css" rel="stylesheet">
+</head>
+<body class="gray-bg">
+    <div class="foo1" style="width: 80%;margin: 0 auto;"></div>
+    <br><br>
+    <div class="foo2" style="width: 80%;margin: 0 auto;"></div>
+    <!--{include common/js.inc}-->
+    <script src="{__STATIC_URL__}js/sortable.min.js"></script>
+    <script src="{__STATIC_URL__}js/md5.min.js"></script>
+    <script src="{__STATIC_URL__}js/spark-md5.min.js"></script>
+    <script src="{__STATIC_URL__}js/image1.js"></script>
+    <script>
+
+        $(function () {
+            // $('.foo1').data('album').get_images();
+            $('.foo1').RGXAlbum({
+                upload  : {
+                    url         : '{url:'upload-image'}',
+                    del_url     : '',
+                    allows      : ['image/png', 'image/gif', 'image/jpeg'],
+                    max         : 20480,
+                    multiple    : true,
+                    auto        : true,
+                    extra       : {
+                        channel_id: 2,
+                    },
+                    failure     : function(file, msg) {
+                        RGX.msg(file.name + ' ' + msg);
+                    }
+                },
+
+                album   : {
+                    click       : function(d) {},
+                    thumb       : '300x300',
+                    has_cut     : false,
+                    // 删除文件
+                    delete_file : function (d) {
+                        if ($('#cert_cover').val() == d) {
+                            $('#cert_cover').val('');
+                        }
+                    },
+                    // 设置封面
+                    set_cover   : function (d) {
+                        $('.rgx-album-images li.active').removeClass('active');
+                        $('img[data-source="' + d + '"]').parent().addClass('active');
+                    },
+                    images      : (function() {
+                        var ret = [],
+                            files = ($('#report-images').val() || "").split('#');
+                        for (var i = 0, url; url = files[i]; i++) {
+                            ret.push({
+                                url     : url,
+                                key     : url,
+                                desc    : ''
+                            });
+                        }
+                        return ret;
+                    })()
+                }
+            });
+
+
+            $('.foo2').RGXAlbum({
+                upload  : {
+                    url         : '{url:'upload-image'}',
+                    del_url     : '',
+                    allows      : ['image/png', 'image/gif', 'image/jpeg'],
+                    max         : 20480,
+                    multiple    : true,
+                    auto        : true,
+                    extra       : {
+                        channel_id: 2,
+                    },
+                    failure     : function(file, msg) {
+                        RGX.msg(file.name + ' ' + msg);
+                    }
+                },
+
+                album: {
+                    click       : function(d) {},
+                    thumb       : '300x300',
+                    has_cut     : false,
+                    // 删除文件
+                    delete_file : function (d) {
+                        if ($('#cert_cover').val() == d) {
+                            $('#cert_cover').val('');
+                        }
+                    },
+                    // 设置封面
+                    set_cover   : function (d) {
+                        $('.rgx-album-images li.active').removeClass('active');
+                        $('img[data-source="' + d + '"]').parent().addClass('active');
+                    },
+                    images      : (function() {
+                        var ret = [],
+                            files = ($('#report-images').val() || "").split('#');
+                        for (var i = 0, url; url = files[i]; i++) {
+                            ret.push({
+                                url     : url,
+                                key     : url,
+                                desc    : ''
+                            });
+                        }
+                        return ret;
+                    })()
+                }
+            });
+
+        });
+    </script>
+</body>
+
+<!--{include common/footer.inc}-->

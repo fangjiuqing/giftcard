@@ -1,0 +1,16 @@
+<div class="ibox-title">
+    <h5><i class="fa fa-support"></i> {$_pos['cur']}</h5>
+    {if $_MODULE != 'tender'}
+	    {if $_ACTION == 'index' || $_ACTION == 'list' || true}
+	    {if $add_url}
+	    <a href="{$add_url}" class="btn btn-xs btn-success pull-right" id="add_rule_btn">
+	        <i class="fa fa-plus"></i> 新增
+	    </a>
+	    {else}
+	    <a href="{url:'%s-add', $_MODULE}" class="btn btn-xs btn-success pull-right" id="add_rule_btn">
+	        <i class="fa fa-plus"></i> 新增
+	    </a>
+	    {/if}
+	    {/if}
+	{/if}
+</div>

@@ -1,0 +1,67 @@
+<!--{include common/meta.inc}-->
+</head>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <!--{include common/crumb.inc}-->
+                    <div class="ibox-content">
+                        <!--{include common/filter.tpl}-->
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th><input type="checkbox" id="checkall" {if empty($list)} disabled="disabled" {/if} /></th>
+                                        <th>用户学号</th>
+                                        <th>用户姓名</th>
+                                        <th>用户学校</th>
+                                        <th>用户手机</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {if empty($list)}
+                                    <tr>
+                                        <table>
+                                            <tr><td>暂无数据</td></tr>
+                                        </table>
+                                    </tr>
+                                    {/if}
+                                    {foreach $list $k $v}
+                                    <tr id="item-{$v['user_id']}">
+                                        <td>
+                                            <input type="checkbox" class="i-checks" value="{$v['user_id']}" />
+                                        </td>
+                                        <td>
+                                            <a title="编辑{$v['user_name']}" href="{url:'user-add-id-%d' , $v['user_id']}">{$v['user_sno']}</a>
+                                        </td>
+                                        <td>
+                                            {$v['user_name']}
+                                        </td>
+                                        <td>
+                                            {$v['user_sname']}
+                                        </td>
+                                        <td>{$v['user_mobile']}</td>
+                                        <td>
+                                            <a href="{url:'user-del-id-%d' , $v['user_id']}" data-confirm="操作不可撤销，确认吗？" data-target="#item-{$v['user_id']}" class="btn btn-xs btn-danger btn-delete">
+                                                <i class="fa fa-trash-o"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {/foreach}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--{include common/pagination.inc}-->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--{include common/js.inc}-->
+    <script src="{__CTPL_URL__}js/filter.js"></script>
+</body>
+
+<!--{include common/footer.inc}-->
