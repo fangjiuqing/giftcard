@@ -1,7 +1,7 @@
 <?php
 /*
   +-------------------------------------------------------
-  + codes 表模型
+  + product 表模型
   + ------------------------------------------------------
   + @update 2019-11-17 00:10:56
   + @desc 若修改了表结构, 请使用下面的命令更新模型文件
@@ -10,7 +10,7 @@
 */
 namespace re\rgx;
 
-class codes_table extends table {
+class product_table extends table {
 
     /*
       +--------------------------
@@ -25,54 +25,73 @@ class codes_table extends table {
       +--------------------------
     */
     protected $_fields = [
-        'code_id' => [
-            'name'               => 'code_id',
+        'pro_id' => [
+            'name'               => 'pro_id',
             'type'               => 'int',
             'field_type'         => 'int',
             'min'                => 0,
             'max'                => 4294967295,
-            'label'              => 'code_id',
+            'label'              => 'pro_id',
             'allow_empty_string' => true,
             'allow_null'         => true
         ],
-        'code' => [
-            'name'               => 'code',
+        'pro_no' => [
+            'name'               => 'pro_no',
             'type'               => 'char',
             'field_type'         => 'varchar',
             'min'                => 0,
-            'max'                => 30,
-            'label'              => 'code',
+            'max'                => 20,
+            'label'              => 'pro_no',
             'allow_empty_string' => true,
             'allow_null'         => true
         ],
-        'is_used' => [
-            'name'               => 'is_used',
-            'type'               => 'int',
-            'field_type'         => 'tinyint',
+        'pro_name' => [
+            'name'               => 'pro_name',
+            'type'               => 'char',
+            'field_type'         => 'varchar',
             'min'                => 0,
-            'max'                => 255,
-            'label'              => 'is_used',
+            'max'                => 200,
+            'label'              => 'pro_name',
             'allow_empty_string' => true,
             'allow_null'         => true
         ],
-        'code_level' => [
-            'name'               => 'code_level',
+        'pro_type' => [
+            'name'               => 'pro_type',
             'type'               => 'int',
             'field_type'         => 'smallint',
-            'min'                => 0,
-            'max'                => 65535,
-            'label'              => '卡类型',
+            'min'                => -32768,
+            'max'                => 32767,
+            'label'              => 'pro_type',
             'allow_empty_string' => true,
             'allow_null'         => true
         ],
-        'create_time' => [
-            'name'               => 'create_time',
-            'type'               => 'date',
-            'field_type'         => 'date',
+        'pro_attr' => [
+            'name'               => 'pro_attr',
+            'type'               => 'char',
+            'field_type'         => 'varchar',
             'min'                => 0,
-            'max'                => 0,
-            'label'              => 'create_time',
-            'validate'           => ['re\rgx\filter', 'is_mysql_date'],
+            'max'                => 200,
+            'label'              => 'pro_attr',
+            'allow_empty_string' => true,
+            'allow_null'         => true
+        ],
+        'pro_desc' => [
+            'name'               => 'pro_desc',
+            'type'               => 'char',
+            'field_type'         => 'varchar',
+            'min'                => 0,
+            'max'                => 255,
+            'label'              => 'pro_desc',
+            'allow_empty_string' => true,
+            'allow_null'         => true
+        ],
+        'pro_store' => [
+            'name'               => 'pro_store',
+            'type'               => 'int',
+            'field_type'         => 'int',
+            'min'                => -2147483648,
+            'max'                => 2147483647,
+            'label'              => 'pro_store',
             'allow_empty_string' => true,
             'allow_null'         => true
         ],
@@ -84,7 +103,7 @@ class codes_table extends table {
       +--------------------------
     */
     protected $_primary_key = [
-        'key' => 'code_id',
+        'key' => 'pro_id',
         'inc' => true
     ];
 
@@ -94,11 +113,13 @@ class codes_table extends table {
       +--------------------------
     */
     public $defaults = [
-        'code_id'     => 0,
-        'code'        => '',
-        'is_used'     => 0,
-        'code_level'  => 1,
-        'create_time' => '',
+        'pro_id'      => 0,
+        'pro_no'      => '',
+        'pro_name'    => '',
+        'pro_type'    => 0,
+        'pro_attr'    => '',
+        'pro_desc'    => '',
+        'pro_store'   => 0,
     ];
 
     /*
@@ -107,10 +128,13 @@ class codes_table extends table {
       +--------------------------
     */
     public $filter = [
-        'code_id'     => ['re\rgx\filter', 'int'],
-        'code'        => ['re\rgx\filter', 'char'],
-        'is_used'     => ['re\rgx\filter', 'int'],
-        'code_level'  => ['re\rgx\filter', 'int'],
+        'pro_id'      => ['re\rgx\filter', 'int'],
+        'pro_no'      => ['re\rgx\filter', 'char'],
+        'pro_name'    => ['re\rgx\filter', 'char'],
+        'pro_type'    => ['re\rgx\filter', 'int'],
+        'pro_attr'    => ['re\rgx\filter', 'char'],
+        'pro_desc'    => ['re\rgx\filter', 'char'],
+        'pro_store'   => ['re\rgx\filter', 'int'],
     ];
 
     /*
@@ -119,7 +143,7 @@ class codes_table extends table {
       +--------------------------
     */
     public $unique_check = [
-        ['code']
+        
     ];
 
     /*

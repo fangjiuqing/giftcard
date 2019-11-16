@@ -22,5 +22,5 @@ return [
       'allow_php' => false
   ],
   //'app_url'     => 'http://localhost/giftcard/admin/',
-  'upload_url'  => 'https://case.isoftware.xyz/carrent/data/attachment/',
+  'upload_url'  => 'https://case.isoftware.xyz/giftcard/data/attachment/',
 ];

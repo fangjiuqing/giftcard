@@ -9,12 +9,7 @@ class account_module extends admin_module {
      * @var unknown_type
      */
     private $_filter_c = array(
-        'nick'          => array('昵称或账号', 'admin_account or admin_nickname'),
-        'sdate'         => array('创建日期-开始', 'admin_create_date'),
-        'edate'         => array('创建日期-结束', 'admin_create_date'),
-        'groups'        => array('权限组别', 'admin_group_id'),
-        'lsdate'        => array('最后登录日期-开始', 'admin_lastlogin_date'),
-        'ledate'        => array('最后登录日期-结束', 'admin_lastlogin_date')
+
     );
 
     /**

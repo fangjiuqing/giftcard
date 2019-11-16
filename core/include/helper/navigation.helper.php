@@ -14,6 +14,14 @@ class navigation_helper extends rgx {
                 ['url' => 'codes-index', 'name' => '兑码列表'],
                 ['url' => 'codes-generate', 'name' => '兑码生成'],
             ],
+        ],
+        [
+            'name'   =>    '库存管理',
+            'icon'   =>    'fa fa-home',
+            'urls'    =>   [
+                ['url' => 'product-index', 'name' => '库存概况'],
+                ['url' => 'product-add', 'name' => '库存补充'],
+            ],
         ]
     ];
 

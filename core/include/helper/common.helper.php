@@ -39,25 +39,10 @@ class common_helper extends rgx {
         5 => 'order-closed',
     ];
 
-    /**
-     * [$car_type description]
-     * @var [type]
-     */
-    public static $car_type = [
-        1 => '经济型',
-        2 => '舒适型',
-        3 => '精英型',
-        4 => 'SUV',
-        5 => '商务车',
-        6 => '电动型',
-        7 => '高端车',
-    ];
-
-
-    public static $agent_type = [
-        1 => 'A级',
-        2 => 'B级',
-        3 => 'C级',
+    public static $code_level = [
+        1 => '红卡',
+        2 => '黑卡',
+        3 => '绿卡',
     ];
 
     /**

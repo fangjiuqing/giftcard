@@ -1,14 +1,16 @@
 <!--{include common/meta.inc}-->
-<!-- <link href="{__CTPL_URL__}css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+<link href="{__CTPL_URL__}css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 <link href="{__CTPL_URL__}css/album.css" rel="stylesheet">
-<link href="{__CTPL_URL__}css/plugins/select2/select2.min.css" rel="stylesheet"> -->
+<link href="{__CTPL_URL__}css/plugins/select2/select2.min.css" rel="stylesheet">
 </head>
 
 <body class="gray-bg">
     <div class="wrapper wrapper-content animated fadeInRight">
         <form action="{url:'@%s-save' , $_MODULE}" method="post" id="sform" class="form-horizontal">
-            <input type="hidden" name="data[car_id]" value="{$data['car_id']|int}" />
-            <!--{include car/add_base.inc}-->
+            <input type="hidden" name="data[pro_id]" value="{$data['pro_id']|int}" />
+            <input type="hidden" name="log[ori_store]" value="{$data['pro_store']|int}" />
+            <!--{include product/add_base.inc}-->
+
             <div class="hr-line-dashed"></div>
             <div class="form-group">
                 <div class="col-sm-12 text-right">
@@ -19,13 +21,12 @@
     </div>
 
     <!--{include common/js.inc}-->
-
-    <!-- <script src="{__CTPL_URL__}js/plugins/select2/select2.min.js"></script>
+    <script src="{__CTPL_URL__}js/plugins/select2/select2.min.js"></script>
     <script src="{__STATIC_URL__}kindeditor/kindeditor-min.js"></script>
-    <script src="{__STATIC_URL__}kindeditor/lang/zh_CN.js"></script> -->
-    <!-- <script src="{__STATIC_URL__}js/md5.min.js"></script>
+    <script src="{__STATIC_URL__}kindeditor/lang/zh_CN.js"></script>
+    <script src="{__STATIC_URL__}js/md5.min.js"></script>
     <script src="{__STATIC_URL__}js/spark-md5.min.js"></script>
-    <script src="{__STATIC_URL__}js/images.js"></script> -->
+    <script src="{__STATIC_URL__}js/images.js"></script>
     <script>
         var
         images = new Object(),
@@ -40,7 +41,7 @@
                     del_url     : '',
                     allows      : ['image/png', 'image/gif', 'image/jpeg'],
                     max         : 20480,
-                    multiple    : false,
+                    multiple    : true,
                     auto        : true,
                     extra       : {
                         channel_id: 2,
@@ -85,6 +86,7 @@
 
         $(function() {
             RGX.post('#sform');
+            $('.select-agent').select2();
         });
     </script>
 </body>

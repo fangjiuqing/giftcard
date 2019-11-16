@@ -46,7 +46,7 @@ class codes_module extends admin_module {
                         1 => '未使用',
                     ],
                     'label'     => '全部类型'
-                ],
+                ]
             ],
 
         ];
@@ -73,11 +73,13 @@ class codes_module extends admin_module {
         $this->assign('list' , $tab->order('create_time desc')->get_all());
         $this->assign('pobj', $pager->to_array());
         $this->assign('filter', $filter);
+        $this->assign('code_level' , RGX\common_helper::$code_level);
         $this->display('codes/list.tpl');
     }
 
     public function generate_action () {
         $this->set_pos('cur' , '批量生成');
+        $this->assign('code_level' , RGX\common_helper::$code_level);
         $this->display('codes/generate.tpl');
     }
 
@@ -87,6 +89,7 @@ class codes_module extends admin_module {
      */
     public function save_action () {
         $code = $this->get('data' , 'p');
+        $level = (int)$this->get('level' , 'p');
 
         $temp = json_decode($code,true);
 
@@ -95,10 +98,10 @@ class codes_module extends admin_module {
 
         $tab = RGX\OBJ('codes_table');
 
-        $sql = 'INSERT IGNORE INTO codes_table (code , create_time) VALUES ';
+        $sql = 'INSERT IGNORE INTO codes_table (code , code_level, create_time) VALUES ';
         $create_time = date('Y-m-d H:i:s');
         foreach ( $code_list as $code ) {
-            $sql .= sprintf("('%s' , '%s')," , $code, $create_time);
+            $sql .= sprintf("('%s' , %d, '%s')," , $code, $level , $create_time);
         }
         $sql = rtrim($sql , ',');
 
@@ -129,15 +132,16 @@ class codes_module extends admin_module {
         $code = $this->get('code');
         if ( $code ) {
             $this->assign('code' , $code);
+            $this->assign('code_level' , RGX\common_helper::$code_level);
 
             // code已使用，仅展示
-            $tab = RGX\OBJ('code_use_table');
-            $info = $tab->where("code = '{$code}'")->get();
+            $tab = RGX\OBJ('codes_table');
+            $tab->left_join('code_use_table' , 'codes_table.code' , 'code_use_table.code');
+            $tab->where("code = '{$code}'");
 
-            if ( $info ) {
-                $this->assign('data',$info);
-                $this->display('codes/used_show.tpl');
-            }
+            $info = $tab->get();
+            $this->assign('products' , RGX\OBJ('product_table')->where("pro_type = " . $info['code_level'])->get_all());
+            $this->assign('data',$info);
             $this->display('codes/use.tpl');
         }
     }
@@ -152,15 +156,42 @@ class codes_module extends admin_module {
         if ( !empty($data) ) {
             $id    =    intval($data['id']) ? : 0;
             if ( !$id ) {
+                $pro_id = intval($data['pro_id']);
+                $pro_info = RGX\OBJ('product_table')->get([
+                    'pro_id' => $pro_id
+                ]);
+
+                ## 检查库存是否充足
+                if ( $pro_info['pro_store'] < $data['use_nums'] ) {
+                    $ret['msg'] = '可用库存不足';
+                    $this->ajaxout($ret);
+                }
+
                 $tab    =    RGX\OBJ('code_use_table');
 
-                $data['create_time'] = date('Y-m-d H:i:s');
+                $data['create_date'] = date('Y-m-d H:i:s');
                 $tab->load($data);
                 $ret    =    $tab->save();
 
                 if ( $ret['row_id'] > 0 ) {
                     $sql = sprintf("UPDATE codes_table SET is_used = 1 WHERE code = '%s'" , $data['code']);
                     $exe = $tab->exec($sql);
+
+                    ## 库存日志变动
+                    $log['ori_store'] = $pro_info['pro_store'];
+                    $log['op_remark'] = '使用兑换码【'.$data['code'].'】兑换，减少库存' . $data['use_nums'];
+                    $log['op_type'] = '减少';
+                    $log['pro_id'] = $pro_id;
+                    $log['opd_store'] = $pro_info['pro_store'] - $data['use_nums'];
+                    $log['op_time'] = $data['create_date'];
+                    $log_tab = RGX\OBJ('store_log_table');
+                    $log_tab->load($log);
+                    $ret = $log_tab->save();
+
+                    ## 更新产品库存
+                    $sql = sprintf("UPDATE product_table SET pro_store = %d WHERE pro_id = %d" , $log['opd_store'] , $pro_id);
+                    $exe = $tab->exec($sql);
+
                 }else{
                     $ret['code'] = 1;
                 }

@@ -13,11 +13,12 @@
                                 <thead>
                                     <tr>
                                         <th><input type="checkbox" id="checkall" {if empty($list)} disabled="disabled" {/if} /></th>
-                                        <th>车牌号码</th>
-                                        <th>车辆名称</th>
-                                        <th>车型备注</th>
-                                        <th>车辆类型</th>
-                                        <th>日租金</th>
+                                        <th>产品编号</th>
+                                        <th>产品名称</th>
+                                        <th>归集卡种</th>
+                                        <th>库存数量</th>
+                                        <th>库存日志</th>
+                                        <th>规格属性</th>
                                         <th>操作</th>
                                     </tr>
                                 </thead>
@@ -30,21 +31,32 @@
                                     </tr>
                                     {/if}
                                     {foreach $list $k $v}
-                                    <tr id="item-{$v['car_id']}">
+                                    <tr id="item-{$v['pro_id']}">
                                         <td>
-                                            <input type="checkbox" class="i-checks" value="{$v['car_id']}" />
+                                            <input type="checkbox" class="i-checks" value="{$v['pro_id']}" />
                                         </td>
                                         <td>
-                                            <a title="编辑{$v['car_name']}" href="{url:'car-add-id-%d' , $v['car_id']}">{$v['car_no']}</a>
+                                            <a href="{url:'product-add-id-%s~' , $v['pro_id']}">
+                                                {$v['pro_no']}
+                                            </a>
+                                        </td>
+                                        <td>{$v['pro_name']}</td>
+                                        <td>{$pro_type[$v['pro_type']]}</td>
+                                        <td>
+                                            {if $v['pro_store'] < 50}
+                                            <span class="btn btn-xs btn-danger">{$v['pro_store']}</span>
+                                            {else}
+                                            <span class="btn btn-xs btn-success">{$v['pro_store']}</span>
+                                            {/if}
                                         </td>
                                         <td>
-                                            {$v['car_name']}
+                                            <a href="{url:'product-log-id-%s~' , $v['pro_id']}">
+                                                <i class="fa fa-database"></i>
+                                            </a>
                                         </td>
-                                        <td>{$v['car_tag']}</td>
-                                        <td>{$car_type[$v['car_type']]}</td>
-                                        <td class="text-warning">￥{$v['car_rent_price']}</td>
+                                        <td>{$v['pro_attr']}</td>
                                         <td>
-                                            <a href="{url:'car-del-id-%d' , $v['car_id']}" data-confirm="操作不可撤销，确认吗？" data-target="#item-{$v['car_id']}" class="btn btn-xs btn-danger btn-delete">
+                                            <a href="{url:'product-del-id-%d' , $v['pro_id']}" data-confirm="产品和库存日志会同时删除，此操作不可撤销，确认吗？" data-target="#item-{$v['pro_id']}" class="btn btn-xs btn-danger btn-delete">
                                                 <i class="fa fa-trash-o"></i>
                                             </a>
                                         </td>
@@ -64,10 +76,10 @@
     <script src="{__CTPL_URL__}js/filter.js"></script>
     <script type="text/javascript">
         $('.order-operate a').on('click' , function() {
-            var car_id = $(this).attr('data-oid');
-            var car_status = $(this).attr('data-status');
-            var url = "{url:'order-change-status-#SAT#-id-~'}" + car_id;
-            url = url.replace('#SAT#' , car_status);
+            var id = $(this).attr('data-oid');
+            var order_status = $(this).attr('data-status');
+            var url = "{url:'order-change-status-#SAT#-id-~'}" + id;
+            url = url.replace('#SAT#' , order_status);
             console.log(url);
         });
     </script>

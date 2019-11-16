@@ -3,7 +3,7 @@
   +-------------------------------------------------------
   + code_use 表模型
   + ------------------------------------------------------
-  + @update 2019-11-13 11:56:20
+  + @update 2019-11-17 00:10:56
   + @desc 若修改了表结构, 请使用下面的命令更新模型文件
   + @cmd /bin/php core/rgx/build.php -t -d=/data/htdocs/emera_tech/giftcard/admin -f=1
   +-------------------------------------------------------
@@ -42,6 +42,26 @@ class code_use_table extends table {
             'min'                => 0,
             'max'                => 30,
             'label'              => 'code',
+            'allow_empty_string' => true,
+            'allow_null'         => true
+        ],
+        'pro_id' => [
+            'name'               => 'pro_id',
+            'type'               => 'int',
+            'field_type'         => 'int',
+            'min'                => -2147483648,
+            'max'                => 2147483647,
+            'label'              => 'pro_id',
+            'allow_empty_string' => true,
+            'allow_null'         => true
+        ],
+        'use_nums' => [
+            'name'               => 'use_nums',
+            'type'               => 'int',
+            'field_type'         => 'int',
+            'min'                => 0,
+            'max'                => 4294967295,
+            'label'              => '消耗数量',
             'allow_empty_string' => true,
             'allow_null'         => true
         ],
@@ -85,6 +105,17 @@ class code_use_table extends table {
             'allow_empty_string' => true,
             'allow_null'         => true
         ],
+        'create_date' => [
+            'name'               => 'create_date',
+            'type'               => 'date',
+            'field_type'         => 'date',
+            'min'                => 0,
+            'max'                => 0,
+            'label'              => 'create_date',
+            'validate'           => ['re\rgx\filter', 'is_mysql_date'],
+            'allow_empty_string' => true,
+            'allow_null'         => true
+        ],
     ];
 
     /*
@@ -105,10 +136,13 @@ class code_use_table extends table {
     public $defaults = [
         'id'              => 0,
         'code'            => '',
+        'pro_id'          => 0,
+        'use_nums'        => 1,
         'client_name'     => '',
         'client_mobile'   => '',
         'client_info'     => '',
         'remark'          => '',
+        'create_date'     => '',
     ];
 
     /*
@@ -119,6 +153,8 @@ class code_use_table extends table {
     public $filter = [
         'id'              => ['re\rgx\filter', 'int'],
         'code'            => ['re\rgx\filter', 'char'],
+        'pro_id'          => ['re\rgx\filter', 'int'],
+        'use_nums'        => ['re\rgx\filter', 'int'],
         'client_name'     => ['re\rgx\filter', 'char'],
         'client_mobile'   => ['re\rgx\filter', 'char'],
         'client_info'     => ['re\rgx\filter', 'char'],

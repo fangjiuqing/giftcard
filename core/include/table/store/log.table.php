@@ -1,7 +1,7 @@
 <?php
 /*
   +-------------------------------------------------------
-  + codes 表模型
+  + store_log 表模型
   + ------------------------------------------------------
   + @update 2019-11-17 00:10:56
   + @desc 若修改了表结构, 请使用下面的命令更新模型文件
@@ -10,7 +10,7 @@
 */
 namespace re\rgx;
 
-class codes_table extends table {
+class store_log_table extends table {
 
     /*
       +--------------------------
@@ -25,54 +25,74 @@ class codes_table extends table {
       +--------------------------
     */
     protected $_fields = [
-        'code_id' => [
-            'name'               => 'code_id',
+        'log_id' => [
+            'name'               => 'log_id',
             'type'               => 'int',
             'field_type'         => 'int',
             'min'                => 0,
             'max'                => 4294967295,
-            'label'              => 'code_id',
+            'label'              => 'log_id',
             'allow_empty_string' => true,
             'allow_null'         => true
         ],
-        'code' => [
-            'name'               => 'code',
+        'pro_id' => [
+            'name'               => 'pro_id',
+            'type'               => 'int',
+            'field_type'         => 'int',
+            'min'                => -2147483648,
+            'max'                => 2147483647,
+            'label'              => 'pro_id',
+            'allow_empty_string' => true,
+            'allow_null'         => true
+        ],
+        'ori_store' => [
+            'name'               => 'ori_store',
+            'type'               => 'int',
+            'field_type'         => 'int',
+            'min'                => 0,
+            'max'                => 4294967295,
+            'label'              => '原来库存',
+            'allow_empty_string' => true,
+            'allow_null'         => true
+        ],
+        'opd_store' => [
+            'name'               => 'opd_store',
+            'type'               => 'int',
+            'field_type'         => 'int',
+            'min'                => 0,
+            'max'                => 4294967295,
+            'label'              => '操作后库存',
+            'allow_empty_string' => true,
+            'allow_null'         => true
+        ],
+        'op_type' => [
+            'name'               => 'op_type',
             'type'               => 'char',
             'field_type'         => 'varchar',
             'min'                => 0,
-            'max'                => 30,
-            'label'              => 'code',
+            'max'                => 20,
+            'label'              => 'op_type',
             'allow_empty_string' => true,
             'allow_null'         => true
         ],
-        'is_used' => [
-            'name'               => 'is_used',
-            'type'               => 'int',
-            'field_type'         => 'tinyint',
-            'min'                => 0,
-            'max'                => 255,
-            'label'              => 'is_used',
-            'allow_empty_string' => true,
-            'allow_null'         => true
-        ],
-        'code_level' => [
-            'name'               => 'code_level',
-            'type'               => 'int',
-            'field_type'         => 'smallint',
-            'min'                => 0,
-            'max'                => 65535,
-            'label'              => '卡类型',
-            'allow_empty_string' => true,
-            'allow_null'         => true
-        ],
-        'create_time' => [
-            'name'               => 'create_time',
+        'op_time' => [
+            'name'               => 'op_time',
             'type'               => 'date',
             'field_type'         => 'date',
             'min'                => 0,
             'max'                => 0,
-            'label'              => 'create_time',
+            'label'              => '操作时间',
             'validate'           => ['re\rgx\filter', 'is_mysql_date'],
+            'allow_empty_string' => true,
+            'allow_null'         => true
+        ],
+        'op_remark' => [
+            'name'               => 'op_remark',
+            'type'               => 'char',
+            'field_type'         => 'varchar',
+            'min'                => 0,
+            'max'                => 200,
+            'label'              => '操作说明',
             'allow_empty_string' => true,
             'allow_null'         => true
         ],
@@ -84,7 +104,7 @@ class codes_table extends table {
       +--------------------------
     */
     protected $_primary_key = [
-        'key' => 'code_id',
+        'key' => 'log_id',
         'inc' => true
     ];
 
@@ -94,11 +114,13 @@ class codes_table extends table {
       +--------------------------
     */
     public $defaults = [
-        'code_id'     => 0,
-        'code'        => '',
-        'is_used'     => 0,
-        'code_level'  => 1,
-        'create_time' => '',
+        'log_id'      => 0,
+        'pro_id'      => 0,
+        'ori_store'   => 0,
+        'opd_store'   => 0,
+        'op_type'     => '',
+        'op_time'     => '',
+        'op_remark'   => '',
     ];
 
     /*
@@ -107,10 +129,12 @@ class codes_table extends table {
       +--------------------------
     */
     public $filter = [
-        'code_id'     => ['re\rgx\filter', 'int'],
-        'code'        => ['re\rgx\filter', 'char'],
-        'is_used'     => ['re\rgx\filter', 'int'],
-        'code_level'  => ['re\rgx\filter', 'int'],
+        'log_id'      => ['re\rgx\filter', 'int'],
+        'pro_id'      => ['re\rgx\filter', 'int'],
+        'ori_store'   => ['re\rgx\filter', 'int'],
+        'opd_store'   => ['re\rgx\filter', 'int'],
+        'op_type'     => ['re\rgx\filter', 'char'],
+        'op_remark'   => ['re\rgx\filter', 'char'],
     ];
 
     /*
@@ -119,7 +143,7 @@ class codes_table extends table {
       +--------------------------
     */
     public $unique_check = [
-        ['code']
+        
     ];
 
     /*

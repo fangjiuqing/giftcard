@@ -1,0 +1,72 @@
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>
+                    <i class="fa fa-cog"></i>
+                    基本信息
+                </h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">产品编号</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="pro_no" name="data[pro_no]" value="{$data['pro_no'] ?: ''}" maxlength="255" {if $data['pro_no']} readonly="readonly" {/if} placeholder="为确保唯一性，可自动生成" />
+                                    <span class="input-group-addon {if !$data['pro_no']} generate-sn {/if}" data-prefix="PRO">生成</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">产品名称</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="pro_name" name="data[pro_name]" value="{$data['pro_name'] ?: ''}" maxlength="255" placeholder="产品名称" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">归集卡种</label>
+                            <div class="col-sm-9">
+                                <select name="data[pro_type]" class="form-control">
+                                    <option value="0">--请选择--</option>
+                                    {foreach $pro_type $k $v}
+                                    <option value="{$k}" {if $data['pro_type'] == $k} selected="selected" {/if}>{$v}</option>
+                                    {/foreach}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">库存数量</label>
+                            <div class="col-sm-9">
+                                <input type="number" class="form-control" id="pro_store" name="data[pro_store]" value="{$data['pro_store']|int}" maxlength="255" placeholder="库存数量" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">规格属性</label>
+                            <div class="col-sm-9">
+                                <textarea class="form-control" id="pro_attr" name="data[pro_attr]">
+                                    {$data['pro_attr'] ?: ''}
+                                </textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">备注说明</label>
+                            <div class="col-sm-9">
+                                <textarea class="form-control" id="pro_desc" name="data[pro_desc]">
+                                    {$data['pro_desc'] ?: ''}
+                                </textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

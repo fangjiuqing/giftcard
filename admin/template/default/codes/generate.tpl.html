@@ -48,6 +48,18 @@
                                     </div>
 
                                     <div class="form-group">
+                                        <label class="col-sm-3 control-label">兑卡等级</label>
+                                        <div class="col-sm-9">
+                                            <select name="data[code_level]" id="code_level" class="form-control">
+                                                <option value="0">--请选择--</option>
+                                                {foreach $code_level $k $v}
+                                                <option value="{$k}">{$v}</option>
+                                                {/foreach}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
                                         <label class="col-sm-3 control-label">生成数量</label>
                                         <div class="col-sm-9">
                                             <div class="input-group">
@@ -92,11 +104,12 @@
         $(function() {
             $('.generate-code').on('click' , function() {
                 var rule = parseInt($('#code_rule').find("option:selected").val());
+                var level = parseInt($('#code_level').find("option:selected").val());
                 var code_length = parseInt($('#code_length').val());
                 var code_nums = parseInt($('#code_nums').val());
-                if ( rule && code_length && code_nums ) {
-                    if ( code_nums > 1000 ) {
-                        alert('一次最多生成1000个');
+                if ( rule && code_length && code_nums && level ) {
+                    if ( code_nums > 5000 ) {
+                        alert('一次最多生成5000个');
                         return false;
                     }
                     generate ( rule , code_length , code_nums );
@@ -114,14 +127,15 @@
                         post_code.push($(v).text());
                     });
 
+                    var level = parseInt($('#code_level').find("option:selected").val());
+
                     $.ajax({
                         url: "{url:'codes-save-~'}",
                         type: "POST",
                         dataType: 'json',
                         processData: false,
-                        data: "data=" + JSON.stringify(post_code),
+                        data: "data=" + JSON.stringify(post_code) + '&level=' + level,
                         success: function(data, textStatus, xhr) {
-                            console.log(data)
                             if ( data.code == 200 ) {
                                 alert("操作成功，开始下载...");
 
@@ -162,15 +176,15 @@
 
             // 纯数字
             if ( rule == 1 ) {
-                var gene = new Array(code_length + 6).join(rule_number);
+                var gene = new Array(code_length + 8).join(rule_number);
             }
             // 纯英文
             if ( rule == 2 ) {
-                var gene = new Array(code_length + 6).join(rule_char);
+                var gene = new Array(code_length + 8).join(rule_char);
             }
             // 数字英文组合
             if ( rule == 3 ) {
-                var gene = new Array(code_length + 6).join(rule_number + rule_char);
+                var gene = new Array(code_length + 8).join(rule_number + rule_char);
             }
 
             var code_list = '';
@@ -181,6 +195,7 @@
                 code_list += '<span class="btn btn-xs btn-success">' + final_code + '</span>';
             }
             $('#code-list').empty().html(code_list);
+            $('#download').show();
         }
 
         function shuffle(array) {
