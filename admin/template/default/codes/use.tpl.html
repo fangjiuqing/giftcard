@@ -37,11 +37,11 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">兑码状态</label>
                                         <div class="col-sm-9">
-                                            {if $data['is_used'] == 0}
-                                            <span class="btn btn-xs btn-success">未使用</span>
-                                            {else}
-                                            <span class="btn btn-xs btn-danger">已使用</span>
-                                            {/if}
+                                            <select name="data[code_status]" id="code_status" class="form-control">
+                                                {foreach $code_status $k $v}
+                                                <option {if $data['code_status'] == $k} selected {/if} value="{$k}">{$v}</option>
+                                                {/foreach}
+                                            </select>
                                         </div>
                                     </div>
 

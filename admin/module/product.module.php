@@ -58,7 +58,6 @@ class product_module extends admin_module {
         if (!empty($type)) {
             $where = [];
             foreach ($type as $type_id) {
-                $type_id -= 1;
                 $where[] = "pro_type = '{$type_id}'";
             }
             if (!empty($where)) {
@@ -71,6 +70,12 @@ class product_module extends admin_module {
         $this->assign('pobj', $pager->to_array());
         $this->assign('filter', $filter);
         $this->assign('pro_type' , RGX\common_helper::$code_level);
+
+        ## 新增统计
+        $statistic = RGX\product_helper::statistic();
+        // echo '<pre>';
+        // print_r($statistic);die;
+        $this->assign('statistic' , $statistic);
         $this->display('product/list.tpl');
     }
 

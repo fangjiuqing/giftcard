@@ -41,10 +41,7 @@ class codes_module extends admin_module {
                 [
                     'type'      => 'checkbox',
                     'code'      => 'type',
-                    'options'   => [
-                        2 => '已使用',
-                        1 => '未使用',
-                    ],
+                    'options'   => RGX\common_helper::$code_status,
                     'label'     => '全部类型'
                 ]
             ],
@@ -62,7 +59,7 @@ class codes_module extends admin_module {
             $where = [];
             foreach ($type as $type_id) {
                 $type_id -= 1;
-                $where[] = "is_used = '{$type_id}'";
+                $where[] = "code_status = '{$type_id}'";
             }
             if (!empty($where)) {
                 $tab->where(join(' or ',$where));
@@ -74,6 +71,7 @@ class codes_module extends admin_module {
         $this->assign('pobj', $pager->to_array());
         $this->assign('filter', $filter);
         $this->assign('code_level' , RGX\common_helper::$code_level);
+        $this->assign('code_status',RGX\common_helper::$code_status);
         $this->display('codes/list.tpl');
     }
 
@@ -142,6 +140,7 @@ class codes_module extends admin_module {
             $info = $tab->get();
             $this->assign('products' , RGX\OBJ('product_table')->where("pro_type = " . $info['code_level'])->get_all());
             $this->assign('data',$info);
+            $this->assign('code_status',RGX\common_helper::$code_status);
             $this->display('codes/use.tpl');
         }
     }
@@ -174,7 +173,7 @@ class codes_module extends admin_module {
                 $ret    =    $tab->save();
 
                 if ( $ret['row_id'] > 0 ) {
-                    $sql = sprintf("UPDATE codes_table SET is_used = 1 WHERE code = '%s'" , $data['code']);
+                    $sql = sprintf("UPDATE codes_table SET code_status = %d WHERE code = '%s'" , $data['code_status'] , $data['code']);
                     $exe = $tab->exec($sql);
 
                     ## 库存日志变动

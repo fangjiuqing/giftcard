@@ -40,9 +40,20 @@ class common_helper extends rgx {
     ];
 
     public static $code_level = [
-        1 => '红卡',
+        1 => '不归类',
         2 => '黑卡',
         3 => '绿卡',
+        4 => '红卡',
+    ];
+
+    /**
+     * [$code_status description]
+     * @var [type]
+     */
+    public static $code_status = [
+        1 => '未使用',
+        2 => '已登记',
+        3 => '已完成',
     ];
 
     /**

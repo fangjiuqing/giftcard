@@ -71,6 +71,42 @@
                 </div>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5><i class="fa fa-support"></i> 库存统计</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>种类</th>
+                                        <th>总计（库存/兑码）</th>
+                                        <th>未使用</th>
+                                        <th>已登记</th>
+                                        <th>已完成</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {foreach $statistic $k $v}
+                                    <tr>
+                                        <td>{$v['name']}</td>
+                                        <td>{$v['store_total']}/{$v['nums']}</td>
+                                        <td>{$v['unuse']}</td>
+                                        <td>{$v['register']}</td>
+                                        <td>{$v['complate']}</td>
+                                    </tr>
+                                    {/foreach}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <!--{include common/js.inc}-->
     <script src="{__CTPL_URL__}js/filter.js"></script>
