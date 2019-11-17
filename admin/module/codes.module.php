@@ -206,6 +206,8 @@ class codes_module extends admin_module {
      * @method add_action
      */
     public function add_action () {
+        $this->generate_action();
+
         $cur   =    '新增兑码';
         $id    =    intval($this->get('id'));
         $data  =    [];

@@ -14,9 +14,9 @@
                                     <tr>
                                         <th><input type="checkbox" id="checkall" {if empty($list)} disabled="disabled" {/if} /></th>
                                         <th>兑码编号</th>
-                                        <th>生成时间</th>
                                         <th>兑卡等级</th>
                                         <th>是否已用</th>
+                                        <th>生成时间</th>
                                         <th>操作</th>
                                     </tr>
                                 </thead>
@@ -38,7 +38,6 @@
                                                 {$v['code']}
                                             </a>
                                         </td>
-                                        <td>{$v['create_time']}</td>
                                         <td>{$code_level[$v['code_level']]}</td>
                                         <td>
                                             {if $v['is_used'] == 1}
@@ -47,6 +46,7 @@
                                             <span class="btn btn-xs btn-success">未使用</span>
                                             {/if}
                                         </td>
+                                        <td>{$v['create_time']}</td>
                                         <td class="agent-operate">
                                             {if $v['is_used'] != 1}
                                             <a href="{url:'codes-del-id-%d' , $v['code_id']}" data-confirm="操作不可撤销，确认吗？" data-target="#item-{$v['code_id']}" class="btn btn-xs btn-danger btn-delete">
