@@ -17,7 +17,7 @@ class product_helper extends rgx {
             $pro_store = $tab->fields('SUM(pro_store) as pro_store')->get(['pro_type' => $k]);
             $recate[$k]['store_total'] = $pro_store['pro_store'];
             $recate[$k]['name'] = $v;
-            $recate[$k]['nums'] = count($recate[$k]['list']);
+            $recate[$k]['nums'] = is_array($recate[$k]['list']) ? count($recate[$k]['list']) : 0;
 
             $recate[$k]['unuse'] = 0;
             $recate[$k]['register'] = 0;
