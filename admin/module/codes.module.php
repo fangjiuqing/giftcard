@@ -58,7 +58,6 @@ class codes_module extends admin_module {
         if (!empty($type)) {
             $where = [];
             foreach ($type as $type_id) {
-                $type_id -= 1;
                 $where[] = "code_status = '{$type_id}'";
             }
             if (!empty($where)) {
