@@ -20,7 +20,7 @@ class navigation_helper extends rgx {
             'icon'   =>    'fa fa-cogs',
             'urls'    =>   [
                 ['url' => 'product-index', 'name' => '库存概况'],
-                ['url' => 'product-add', 'name' => '库存补充'],
+                ['url' => 'product-add', 'name' => '新增库存'],
             ],
         ],
         [
