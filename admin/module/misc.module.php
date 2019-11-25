@@ -85,6 +85,7 @@ class misc_module extends base_module {
      * @return [type] [description]
      */
     public function logout_action () {
+        $_SESSION['admin'] = null;
         $this->sess();
         $this->sess_remove();
         $this->redirect('login');

@@ -16,6 +16,7 @@
                                     <tr>
                                         <th>操作前库存</th>
                                         <th>操作后库存</th>
+                                        <th>操作人</th>
                                         <th>操作类型</th>
                                         <th>备注说明</th>
                                         <th>操作时间</th>
@@ -33,6 +34,7 @@
                                     <tr id="item-{$v['log_id']}">
                                         <td>{$v['ori_store']}</td>
                                         <td>{$v['opd_store']}</td>
+                                        <td>{$v['op_admin']}</td>
                                         <td>
                                             {if $v['op_type'] == '增加'}
                                             <span class="btn btn-xs btn-danger">

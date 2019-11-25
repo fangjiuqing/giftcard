@@ -42,8 +42,8 @@ class common_helper extends rgx {
     public static $code_level = [
         1 => '不归类',
         2 => '黑卡',
-        3 => '绿卡',
-        4 => '红卡',
+        3 => '金卡',
+        4 => '银卡',
     ];
 
     /**
@@ -54,6 +54,12 @@ class common_helper extends rgx {
         1 => '未使用',
         2 => '已登记',
         3 => '已完成',
+    ];
+
+    public static $agent_type = [
+        1 => '一级',
+        2 => '二级',
+        3 => '三级',
     ];
 
     /**
@@ -98,5 +104,21 @@ class common_helper extends rgx {
             }
         }
         return $ret;
+    }
+
+    /**
+     * [get_admin description]
+     * @return [type] [description]
+     */
+    public static function get_admin () {
+        $tab = OBJ('admin_table');
+        $tab->where('admin_group = 1');
+        $ret = $tab->get_all();
+
+        $admins = [];
+        foreach ( $ret as $v ) {
+            $admins[$v['admin_realname']] = $v['admin_realname'];
+        }
+        return $admins;
     }
 } //Class End

@@ -3,7 +3,7 @@
   +-------------------------------------------------------
   + code_use 表模型
   + ------------------------------------------------------
-  + @update 2019-11-17 11:56:04
+  + @update 2019-11-25 13:35:44
   + @desc 若修改了表结构, 请使用下面的命令更新模型文件
   + @cmd /bin/php core/rgx/build.php -t -d=/data/htdocs/emera_tech/giftcard/admin -f=1
   +-------------------------------------------------------
@@ -116,6 +116,16 @@ class code_use_table extends table {
             'allow_empty_string' => true,
             'allow_null'         => true
         ],
+        'op_admin' => [
+            'name'               => 'op_admin',
+            'type'               => 'char',
+            'field_type'         => 'varchar',
+            'min'                => 0,
+            'max'                => 30,
+            'label'              => 'op_admin',
+            'allow_empty_string' => true,
+            'allow_null'         => true
+        ],
     ];
 
     /*
@@ -143,6 +153,7 @@ class code_use_table extends table {
         'client_info'     => '',
         'remark'          => '',
         'create_date'     => '',
+        'op_admin'        => '',
     ];
 
     /*
@@ -159,6 +170,7 @@ class code_use_table extends table {
         'client_mobile'   => ['re\rgx\filter', 'char'],
         'client_info'     => ['re\rgx\filter', 'char'],
         'remark'          => ['re\rgx\filter', 'char'],
+        'op_admin'        => ['re\rgx\filter', 'char'],
     ];
 
     /*

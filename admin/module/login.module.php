@@ -102,6 +102,7 @@ class login_module extends base_module {
             $this->ajax_failure($obj->get_error());
         }
 
+        $_SESSION['admin'] = $row;
         $this->set_login($row);
         $this->ajax_success('登录成功', [], RGX\URL('index'));
     }

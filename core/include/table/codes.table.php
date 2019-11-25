@@ -3,7 +3,7 @@
   +-------------------------------------------------------
   + codes 表模型
   + ------------------------------------------------------
-  + @update 2019-11-17 11:56:05
+  + @update 2019-11-25 13:35:44
   + @desc 若修改了表结构, 请使用下面的命令更新模型文件
   + @cmd /bin/php core/rgx/build.php -t -d=/data/htdocs/emera_tech/giftcard/admin -f=1
   +-------------------------------------------------------
@@ -76,6 +76,16 @@ class codes_table extends table {
             'allow_empty_string' => true,
             'allow_null'         => true
         ],
+        'agent_id' => [
+            'name'               => 'agent_id',
+            'type'               => 'int',
+            'field_type'         => 'int',
+            'min'                => 0,
+            'max'                => 4294967295,
+            'label'              => '代理商ID',
+            'allow_empty_string' => true,
+            'allow_null'         => true
+        ],
     ];
 
     /*
@@ -99,6 +109,7 @@ class codes_table extends table {
         'code_status' => 1,
         'code_level'  => 1,
         'create_time' => '',
+        'agent_id'    => 0,
     ];
 
     /*
@@ -111,6 +122,7 @@ class codes_table extends table {
         'code'        => ['re\rgx\filter', 'char'],
         'code_status' => ['re\rgx\filter', 'int'],
         'code_level'  => ['re\rgx\filter', 'int'],
+        'agent_id'    => ['re\rgx\filter', 'int'],
     ];
 
     /*

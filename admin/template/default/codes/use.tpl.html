@@ -94,6 +94,20 @@
                                         </div>
                                     </div>
 
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">操作人</label>
+                                        <div class="col-sm-9">
+                                            {if $admin_group}
+                                            <select name="data[op_admin]" class="form-control select-agent">
+                                                {foreach $admin_group $k $v}
+                                                <option value="{$v}" {if $data['op_admin'] == $v} selected="selected" {/if}>{$v}</option>
+                                                {/foreach}
+                                            </select>
+                                            {else}
+                                            <input type="text" class="form-control" id="op_admin" name="data[op_admin]" value="{$data['op_admin'] ?: $admin_name}" readonly="readonly" />
+                                            {/if}
+                                        </div>
+                                    </div>
 
                                 </div>
                             </div>

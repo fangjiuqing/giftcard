@@ -14,12 +14,21 @@ class codes_module extends admin_module {
         $this->set_pos('cur' , '兑码列表');
         $type = $this->get('type') ? : '';
         $type = $type ? explode(',', $type) : [];
+
+        $level = $this->get('level') ? : '';
+        $level = $level ? explode(',', $level) : [];
+
+        $oprator = RGX\filter::text(urldecode($this->get('oprator'))) ? : '';
+        $oprator = $oprator ? explode(',', $oprator) : [];
+
         $tab    =    RGX\OBJ('codes_table');
         $filter = [
             'values'       => [
                 'skey'          => RGX\filter::text(urldecode($this->get('skey'))) ?: '',
                 'stype'         => $this->get('stype') ?: 'code',
-                'type'          => $type
+                'type'          => $type,
+                'level'         => $level,
+                'oprator'       => $oprator,
             ],
             'configs'       => [
                 [
@@ -42,7 +51,21 @@ class codes_module extends admin_module {
                     'type'      => 'checkbox',
                     'code'      => 'type',
                     'options'   => RGX\common_helper::$code_status,
-                    'label'     => '全部类型'
+                    'label'     => '全部状态'
+                ],
+
+                [
+                    'type'      => 'checkbox',
+                    'code'      => 'level',
+                    'options'   => RGX\common_helper::$code_level,
+                    'label'     => '全部卡种'
+                ],
+
+                [
+                    'type'      => 'checkbox',
+                    'code'      => 'oprator',
+                    'options'   => RGX\common_helper::get_admin(),
+                    'label'     => '全部人员'
                 ]
             ],
 
@@ -51,17 +74,49 @@ class codes_module extends admin_module {
         if (!empty($filter['values']['skey'])) {
             // 按编号检索
             if ($filter['values']['stype'] == 'code') {
-                $tab->where("code = '{$filter['values']['skey']}'");
+                $tab->where("codes_table.code = '{$filter['values']['skey']}'");
             }
         }
 
         if (!empty($type)) {
             $where = [];
             foreach ($type as $type_id) {
-                $where[] = "code_status = '{$type_id}'";
+                $where[] = "codes_table.code_status = '{$type_id}'";
             }
             if (!empty($where)) {
                 $tab->where(join(' or ',$where));
+            }
+        }
+
+        if (!empty($level)) {
+            $where = [];
+            foreach ($level as $level_id) {
+                $where[] = "codes_table.code_level = '{$level_id}'";
+            }
+            if (!empty($where)) {
+                $tab->where(join(' or ',$where));
+            }
+        }
+
+        ## 按操作管理员筛选
+        if ( !empty($oprator) ) {
+            $where = [];
+            foreach ($oprator as $oprator_name) {
+                $where[] = "op_admin = '{$oprator_name}'";
+            }
+            $use_tab = RGX\OBJ('code_use_table')->fields('code');
+            if (!empty($where)) {
+                $use_tab->where(join(' or ',$where));
+                $codes = $use_tab->get_all();
+
+                if ( !empty($codes) ) {
+                    $codes_str = [];
+                    foreach ( $codes as $code ) {
+                        $codes_str[] = $code['code'];
+                    }
+                    $codes_str = implode("','" , $codes_str);
+                    $tab->where("codes_table.code in ('" . $codes_str . "')");
+                }
             }
         }
 
@@ -71,7 +126,42 @@ class codes_module extends admin_module {
         $this->assign('filter', $filter);
         $this->assign('code_level' , RGX\common_helper::$code_level);
         $this->assign('code_status',RGX\common_helper::$code_status);
+        $this->assign('agents' , RGX\OBJ('agent_table')->get_all());
         $this->display('codes/list.tpl');
+    }
+
+    /**
+     * 分配代理商
+     * @return [type] [description]
+     */
+    public function assign_action () {
+        $agent_id = intval($this->get('agent_id' , 'p'));
+        $codes = $this->get('codes' , 'p');
+
+        $result = [
+            'code' => 500,
+            'data' => '',
+            'msg'  => '操作失败'
+        ];
+
+        if ( !$agent_id ) {
+            $result['msg'] = '代理商不能为空';
+            $this->ajaxout($result);
+        }
+
+        if ( !$codes ) {
+            $result['msg'] = '兑换码不能为空';
+            $this->ajaxout($result);
+        }
+        $codes = explode(',' , $codes);
+        $sql = sprintf("UPDATE codes_table SET agent_id = %d WHERE code_id IN ('%s')" , $agent_id , implode("','" , $codes));
+        $tab = RGX\OBJ('codes_table');
+
+        if ( $tab->exec($sql) ) {
+            $result['code'] = 0;
+            $result['msg'] = '操作成功';
+        }
+        $this->ajaxout($result);
     }
 
     public function generate_action () {
@@ -140,6 +230,14 @@ class codes_module extends admin_module {
             $this->assign('products' , RGX\OBJ('product_table')->where("pro_type = " . $info['code_level'])->get_all());
             $this->assign('data',$info);
             $this->assign('code_status',RGX\common_helper::$code_status);
+
+            ## 非管理、员工
+            if ( $this->admin['admin_group'] == 2 ) {
+                $admin_group = RGX\common_helper::get_admin();
+                $this->assign('admin_group' , $admin_group);
+            }else{
+                $this->assign('admin_name' , $this->admin['admin_realname']);
+            }
             $this->display('codes/use.tpl');
         }
     }

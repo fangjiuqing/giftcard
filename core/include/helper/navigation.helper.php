@@ -17,10 +17,18 @@ class navigation_helper extends rgx {
         ],
         [
             'name'   =>    '库存管理',
-            'icon'   =>    'fa fa-home',
+            'icon'   =>    'fa fa-cogs',
             'urls'    =>   [
                 ['url' => 'product-index', 'name' => '库存概况'],
                 ['url' => 'product-add', 'name' => '库存补充'],
+            ],
+        ],
+        [
+            'name'   =>    '代理管理',
+            'icon'   =>    'fa fa-user',
+            'urls'    =>   [
+                ['url' => 'agent-index', 'name' => '代理列表'],
+                ['url' => 'agent-add', 'name' => '新增代理'],
             ],
         ]
     ];

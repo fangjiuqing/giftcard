@@ -53,6 +53,20 @@
                                 </tbody>
                             </table>
                         </div>
+
+                        <div class="row" style="padding-top: 20px;">
+                            <div class="col-sm-3">
+                                <div class="input-group">
+                                    <select class="form-control" id="agent">
+                                        <option value="0">--请选择--</option>
+                                        {foreach $agents $k $v}
+                                        <option value="{$v['agent_id']}">{$v['agent_fullname']}</option>
+                                        {/foreach}
+                                    </select>
+                                    <span class="input-group-addon trans-to-agent" data-prefix="PRO">转给代理</span>
+                                </div>
+                            </div>
+                        </div>
                         <!--{include common/pagination.inc}-->
 
                     </div>
@@ -63,12 +77,49 @@
     <!--{include common/js.inc}-->
     <script src="{__CTPL_URL__}js/filter.js"></script>
     <script type="text/javascript">
-        $('.order-operate a').on('click' , function() {
-            var id = $(this).attr('data-oid');
-            var order_status = $(this).attr('data-status');
-            var url = "{url:'order-change-status-#SAT#-id-~'}" + id;
-            url = url.replace('#SAT#' , order_status);
-            console.log(url);
+        $('.trans-to-agent').on('click' , function() {
+            var ids = new Array();
+            $('.i-checks').each(function(k,v) {
+                if ( $(v).is(':checked') ) {
+                    var id = $(v).attr('value');
+                    ids.push(id);
+                }
+            });
+            if ( ids.length == 0 ) {
+                RGX.msg('必须先选择对应的兑换码');
+                return false;
+            }
+
+            var agent_id = parseInt($('#agent').find("option:selected").val());
+            var agent_name = $('#agent').find("option:selected").text();
+
+            if ( agent_id == 0 ) {
+                RGX.msg('必须指定代理商');
+                return false;
+            }
+
+            RGX.confirm({
+                msg     : '确定将选中的'+ids.length+'张兑换码分配给代理商【'+agent_name+'】吗？',
+                ok      : function() {
+                    $.ajax({
+                        'url' : "{url:'codes-assign-~'}",
+                        'type': "POST",
+                        'data': "agent_id=" + agent_id + "&codes=" + ids,
+                        success: function(data) {
+                            if (data.code == 0 ) {
+                                RGX.msg('操作成功');
+                                location.href = location.href;
+                            }else{
+                                RGX.msg(data.msg);
+                            }
+                        },
+                        error: function (data) {
+                            RGX.msg('服务端异常');
+                            return false;
+                        }
+                    });
+                }
+            });
         });
     </script>
 </body>

@@ -31,10 +31,8 @@ class account_module extends admin_module {
         $tab = RGX\OBJ('admin_table');
 
         $pager = new RGX\page_helper($tab, $this->get('pn'), 24);
-        $tab->map(function($row) {
-            $g_tab = RGX\OBJ('admin_group_table');
-            $temp              =    $g_tab->where('group_id = ' . $row['admin_group_id'])->get();
-            $row['group_name'] =    $temp['group_name'];
+        $tab->map(function($row) use ($admin_group) {
+            $row['group_name'] =    $admin_group[$row['admin_group']]['group_name'];
             return $row;
         });
         $this->assign('list' , $tab->get_all());
@@ -79,13 +77,13 @@ class account_module extends admin_module {
         // 修改信息时：填写了密码字段（需要更新密码时处理）
         if ( !empty($data['admin_passwd']) ) {
             // 字母开头加数字组合
-            if ( !preg_match('/^[a-zA-Z][a-zA-Z0-9_]{5,15}$/', $data['admin_passwd'])) $this->ajax_failure('密码必须是6-15位，英文字母开头和数字的组合！');
+            //if ( !preg_match('/^[a-zA-Z][a-zA-Z0-9_]{5,15}$/', $data['admin_passwd'])) $this->ajax_failure('密码必须是6-15位，英文字母开头和数字的组合！');
 
             if ( $data['admin_passwd'] != $data['cfm_password']) $this->ajax_failure('两次输入不一致！');
 
             $data['admin_salt']     =    $data['admin_salt'] ? : RGX\misc::randstr(6);
             $data['admin_passwd']   =    md5(md5($data['admin_passwd']) . $data['admin_salt']);
-            $data['admin_lastip']   =    $data['admin_lastip'] ? : ip2long(RGX\app::get_ip());
+            //$data['admin_lastip']   =    $data['admin_lastip'] ? : ip2long(RGX\app::get_ip());
         }else{
             unset($data['admin_passwd'] , $data['cfm_password']);
         }
@@ -102,7 +100,10 @@ class account_module extends admin_module {
         }else{
             $this->ajax_failure($obj->get_error());
         }
-        $this->ajaxout(['code' => 0, 'msg'=>'' , 'url' => RGX\router::url('account-list')]);
+
+        // if ( $this->login['admin_group'] == 1 ) {
+        //     $this->ajaxout(['code' => 0, 'msg'=>'' , 'url' => RGX\router::url('account-list')]);
+        // }
 
     }
 

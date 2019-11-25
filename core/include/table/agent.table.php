@@ -1,16 +1,16 @@
 <?php
 /*
   +-------------------------------------------------------
-  + store_log 表模型
+  + agent 表模型
   + ------------------------------------------------------
-  + @update 2019-11-25 13:35:45
+  + @update 2019-11-25 13:35:44
   + @desc 若修改了表结构, 请使用下面的命令更新模型文件
   + @cmd /bin/php core/rgx/build.php -t -d=/data/htdocs/emera_tech/giftcard/admin -f=1
   +-------------------------------------------------------
 */
 namespace re\rgx;
 
-class store_log_table extends table {
+class agent_table extends table {
 
     /*
       +--------------------------
@@ -25,84 +25,64 @@ class store_log_table extends table {
       +--------------------------
     */
     protected $_fields = [
-        'log_id' => [
-            'name'               => 'log_id',
+        'agent_id' => [
+            'name'               => 'agent_id',
             'type'               => 'int',
             'field_type'         => 'int',
             'min'                => 0,
             'max'                => 4294967295,
-            'label'              => 'log_id',
+            'label'              => 'agent_id',
             'allow_empty_string' => true,
             'allow_null'         => true
         ],
-        'pro_id' => [
-            'name'               => 'pro_id',
-            'type'               => 'int',
-            'field_type'         => 'int',
-            'min'                => -2147483648,
-            'max'                => 2147483647,
-            'label'              => 'pro_id',
-            'allow_empty_string' => true,
-            'allow_null'         => true
-        ],
-        'ori_store' => [
-            'name'               => 'ori_store',
-            'type'               => 'int',
-            'field_type'         => 'int',
+        'agent_fullname' => [
+            'name'               => 'agent_fullname',
+            'type'               => 'char',
+            'field_type'         => 'varchar',
             'min'                => 0,
-            'max'                => 4294967295,
-            'label'              => '原来库存',
+            'max'                => 100,
+            'label'              => 'agent_fullname',
             'allow_empty_string' => true,
             'allow_null'         => true
         ],
-        'opd_store' => [
-            'name'               => 'opd_store',
-            'type'               => 'int',
-            'field_type'         => 'int',
-            'min'                => 0,
-            'max'                => 4294967295,
-            'label'              => '操作后库存',
-            'allow_empty_string' => true,
-            'allow_null'         => true
-        ],
-        'op_type' => [
-            'name'               => 'op_type',
+        'agent_mobile' => [
+            'name'               => 'agent_mobile',
             'type'               => 'char',
             'field_type'         => 'varchar',
             'min'                => 0,
             'max'                => 20,
-            'label'              => 'op_type',
+            'label'              => 'agent_mobile',
             'allow_empty_string' => true,
             'allow_null'         => true
         ],
-        'op_time' => [
-            'name'               => 'op_time',
+        'agent_code' => [
+            'name'               => 'agent_code',
+            'type'               => 'char',
+            'field_type'         => 'varchar',
+            'min'                => 0,
+            'max'                => 20,
+            'label'              => 'agent_code',
+            'allow_empty_string' => true,
+            'allow_null'         => true
+        ],
+        'agent_create_time' => [
+            'name'               => 'agent_create_time',
             'type'               => 'date',
             'field_type'         => 'date',
             'min'                => 0,
             'max'                => 0,
-            'label'              => '操作时间',
+            'label'              => 'agent_create_time',
             'validate'           => ['re\rgx\filter', 'is_mysql_date'],
             'allow_empty_string' => true,
             'allow_null'         => true
         ],
-        'op_remark' => [
-            'name'               => 'op_remark',
-            'type'               => 'char',
-            'field_type'         => 'varchar',
-            'min'                => 0,
-            'max'                => 200,
-            'label'              => '操作说明',
-            'allow_empty_string' => true,
-            'allow_null'         => true
-        ],
-        'op_admin' => [
-            'name'               => 'op_admin',
-            'type'               => 'char',
-            'field_type'         => 'varchar',
-            'min'                => 0,
-            'max'                => 30,
-            'label'              => 'op_admin',
+        'agent_level' => [
+            'name'               => 'agent_level',
+            'type'               => 'int',
+            'field_type'         => 'smallint',
+            'min'                => -32768,
+            'max'                => 32767,
+            'label'              => 'agent_level',
             'allow_empty_string' => true,
             'allow_null'         => true
         ],
@@ -114,7 +94,7 @@ class store_log_table extends table {
       +--------------------------
     */
     protected $_primary_key = [
-        'key' => 'log_id',
+        'key' => 'agent_id',
         'inc' => true
     ];
 
@@ -124,14 +104,12 @@ class store_log_table extends table {
       +--------------------------
     */
     public $defaults = [
-        'log_id'      => 0,
-        'pro_id'      => 0,
-        'ori_store'   => 0,
-        'opd_store'   => 0,
-        'op_type'     => '',
-        'op_time'     => '',
-        'op_remark'   => '',
-        'op_admin'    => '',
+        'agent_id'            => 0,
+        'agent_fullname'      => '',
+        'agent_mobile'        => '',
+        'agent_code'          => '',
+        'agent_create_time'   => '',
+        'agent_level'         => 0,
     ];
 
     /*
@@ -140,13 +118,11 @@ class store_log_table extends table {
       +--------------------------
     */
     public $filter = [
-        'log_id'      => ['re\rgx\filter', 'int'],
-        'pro_id'      => ['re\rgx\filter', 'int'],
-        'ori_store'   => ['re\rgx\filter', 'int'],
-        'opd_store'   => ['re\rgx\filter', 'int'],
-        'op_type'     => ['re\rgx\filter', 'char'],
-        'op_remark'   => ['re\rgx\filter', 'char'],
-        'op_admin'    => ['re\rgx\filter', 'char'],
+        'agent_id'            => ['re\rgx\filter', 'int'],
+        'agent_fullname'      => ['re\rgx\filter', 'char'],
+        'agent_mobile'        => ['re\rgx\filter', 'char'],
+        'agent_code'          => ['re\rgx\filter', 'char'],
+        'agent_level'         => ['re\rgx\filter', 'int'],
     ];
 
     /*

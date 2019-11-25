@@ -1,0 +1,89 @@
+<!--{include common/meta.inc}-->
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <form action="{url:'@%s-storesave' , $_MODULE}" method="post" id="sform" class="form-horizontal">
+            <input type="hidden" name="log[pro_id]" value="{$data['pro_id']|int}" />
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>
+                                <i class="fa fa-cog"></i>
+                                调整库存
+                            </h5>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">产品编号</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="pro_no" name="data[pro_no]" value="{$data['pro_no'] ?: ''}" readonly="readonly" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">产品名称</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="pro_name" name="data[pro_name]" value="{$data['pro_name'] ?: ''}" readonly="readonly" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">当前库存</label>
+                                        <div class="col-sm-9">
+                                            <input type="number" class="form-control" name="log[ori_store]" value="{$data['pro_store']|int}" readonly="readonly"  />
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">调整类型</label>
+                                        <div class="col-sm-9">
+                                            <select name="log[op_type]" class="form-control">
+                                                <option value="增加">增加</option>
+                                                <option value="减少">减少</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">调整数量</label>
+                                        <div class="col-sm-9">
+                                            <input type="number" class="form-control" id="pro_store" name="log[op_num]" placeholder="调整数量" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">备注说明</label>
+                                        <div class="col-sm-9">
+                                            <textarea class="form-control" id="pro_desc" name="log[op_remark]"></textarea>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-sm-12 text-right">
+                    <button class="btn btn-primary" type="submit">保存内容</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!--{include common/js.inc}-->
+    <script type="text/javascript">
+        $(function() {
+            RGX.post('#sform');
+        });
+    </script>
+</body>
+<!--{include common/footer.inc}-->

@@ -1,0 +1,78 @@
+<!--{include common/meta.inc}-->
+</head>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <!--{include common/crumb.inc}-->
+                    <div class="ibox-content">
+                        <!--{include common/filter.tpl}-->
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th><input type="checkbox" id="checkall" {if empty($list)} disabled="disabled" {/if} /></th>
+                                        <th>代理编号</th>
+                                        <th>代理姓名</th>
+                                        <th>代理手机号</th>
+                                        <th>代理级别</th>
+                                        <th>代理总卡数</th>
+                                        <th>代理卡详情</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {if empty($list)}
+                                    <tr>
+                                        <table>
+                                            <tr><td>暂无数据</td></tr>
+                                        </table>
+                                    </tr>
+                                    {/if}
+                                    {foreach $list $k $v}
+                                    <tr id="item-{$v['agent_id']}">
+                                        <td>
+                                            <input type="checkbox" class="i-checks" value="{$v['agent_id']}" />
+                                        </td>
+
+                                        <td>
+                                            <a title="编辑{$v['agent_code']}" href="{url:'agent-add-id-%d' , $v['agent_id']}">{$v['agent_code']}</a>
+                                        </td>
+                                        <td>{$v['agent_fullname']}</td>
+                                        <td>{$v['agent_mobile']}</td>
+                                        <td>{$agent_type[$v['agent_level']]}</td>
+                                        <td>{$v['agent_order_nums']|int}</td>
+                                        <td>
+                                            {foreach $v['agent_summary'] $kk $vv}
+                                            <p>
+                                                {$vv['name']} : {$vv['nums']}
+                                            </p>
+                                            {/foreach}
+                                        </td>
+
+                                        <td class="agent-operate">
+                                            <a href="{url:'agent-del-id-%d' , $v['agent_id']}" data-confirm="操作不可撤销，确认吗？" data-target="#item-{$v['agent_id']}" class="btn btn-xs btn-danger btn-delete">
+                                                <i class="fa fa-trash-o"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {/foreach}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--{include common/pagination.inc}-->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--{include common/js.inc}-->
+    <script src="{__CTPL_URL__}js/filter.js"></script>
+    <script type="text/javascript">
+
+    </script>
+</body>
+
+<!--{include common/footer.inc}-->

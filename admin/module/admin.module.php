@@ -12,14 +12,17 @@ class admin_module extends base_module {
      * @param array $params [description]
      */
     public function __construct ($params = []) {
+        session_start();
         parent::__construct($params);
-        $this->admin = $this->sess_get('admin');
+        $this->admin = $_SESSION['admin'];
+        $this->login = $_SESSION['admin'];
 
         if (empty($this->admin)) {
             $this->redirect('login');
         }
         $this->assign('route', RGX\router::get_config());
         $this->get_navs($this->login);
+
     }
 
     /**

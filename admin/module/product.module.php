@@ -102,6 +102,90 @@ class product_module extends admin_module {
     }
 
     /**
+     * @method store_action
+     */
+    public function store_action () {
+        $cur   =    '调整库存';
+        $id    =    intval($this->get('id'));
+        $data  =    [];
+
+
+        if ( $id ) {
+            $data    =    RGX\OBJ('product_table')->get(['pro_id' => $id]);
+            if ( !empty($data) ) {
+                $cur =    '编辑【' . $data['pro_no'] . '】';
+            }
+        }
+
+        $this->assign('data' , $data);
+        $this->assign('pro_type' , RGX\common_helper::$code_level);
+        $this->set_pos('cur' , $cur);
+        $this->display('product/store.tpl');
+    }
+
+    /**
+     * [保存]
+     * @method save_action
+     * @return [type]      [description]
+     */
+    public function storesave_action () {
+        $log           =    $this->get('log' , 'p');
+        $ret['code']   =    1;
+
+        if ( !empty($log) ) {
+            $pro_id    =    intval($log['pro_id']) ? : 0;
+
+            $op_type = $log['op_type'] ? : '增加';
+            $op_num  = intval($log['op_num']);
+
+            if ( !$op_num ) {
+                $ret['msg'] = '调整数量不能为0';
+                $this->ajaxout($ret);
+            }
+
+            $log['op_remark'] = trim($log['op_remark']);
+            if ( empty($log['op_remark']) ) {
+                $ret['msg'] = '备注说明不能为空';
+                $this->ajaxout($ret);
+            }
+
+            if ( $op_type == '增加' ) {
+                $sql = sprintf("UPDATE product_table SET pro_store = pro_store + %d WHERE pro_id = %d" , $op_num , $pro_id);
+
+                $log['opd_store'] = $log['ori_store'] + $op_num;
+
+            }else if ( $op_type == '减少' ) {
+                $sql = sprintf("UPDATE product_table SET pro_store = pro_store - %d WHERE pro_id = %d" , $op_num , $pro_id);
+                $log['opd_store'] = $log['ori_store'] - $op_num;
+            }else{
+                $ret['msg'] = '未知的调整类型';
+                $this->ajaxout($ret);
+            }
+
+            if ( !$log['opd_store'] ) {
+                $ret['msg'] = '调整后库存为负数，无法执行';
+                $this->ajaxout($ret);
+            }
+
+            ## 01更新产品库存
+            $tab    =    RGX\OBJ('product_table');
+            if ( $tab->exec($sql) ) {
+                ## 02 记录库存日志
+                $log['op_time'] = date('Y-m-d H:i:s');
+                $log['op_remark'] .= ',' . $log['op_type'] . '了' . $op_num;
+                $log['op_admin'] = $_SESSION['admin']['admin_realname'];
+                $log_tab = RGX\OBJ('store_log_table');
+                $log_tab->load($log);
+                $ret = $log_tab->save();
+
+                $ret['code'] =0;
+                $ret['url']    =    RGX\router::url('product-index');
+            }
+        }
+        $this->ajaxout($ret);
+    }
+
+    /**
      * [保存]
      * @method save_action
      * @return [type]      [description]
@@ -130,6 +214,7 @@ class product_module extends admin_module {
                 $log['pro_id'] = $pro_id;
                 $log['opd_store'] = $data['pro_store'];
                 $log['op_time'] = date('Y-m-d H:i:s');
+                $log['op_admin'] = $_SESSION['admin']['admin_realname'];
                 $log_tab = RGX\OBJ('store_log_table');
                 $log_tab->load($log);
                 $ret = $log_tab->save();
@@ -170,13 +255,12 @@ class product_module extends admin_module {
         $pro_id = (int)$this->get('id');
         $tab    =    RGX\OBJ('store_log_table');
         $tab->where("pro_id = $pro_id");
-        $pager = new RGX\page_helper($tab, $this->get('pn'), 100);
+        $pager = new RGX\page_helper($tab, $this->get('pn'), 50);
         $this->assign('list' , $tab->order('op_time desc')->get_all());
         $this->assign('pobj', $pager->to_array());
 
         $data    =    RGX\OBJ('product_table')->get(['pro_id' => $pro_id]);
         $this->assign('data' , $data);
-
 
         $this->display('product/log.tpl');
     }

@@ -56,8 +56,12 @@
                                         </td>
                                         <td>{$v['pro_attr']}</td>
                                         <td>
+                                            <a href="{url:'product-store-id-%d' , $v['pro_id']}" class="btn btn-xs btn-primary">
+                                                <i class="fa fa-pencil"></i>调库存
+                                            </a>
+
                                             <a href="{url:'product-del-id-%d' , $v['pro_id']}" data-confirm="产品和库存日志会同时删除，此操作不可撤销，确认吗？" data-target="#item-{$v['pro_id']}" class="btn btn-xs btn-danger btn-delete">
-                                                <i class="fa fa-trash-o"></i>
+                                                <i class="fa fa-trash-o"></i>删除
                                             </a>
                                         </td>
                                     </tr>
@@ -108,17 +112,10 @@
             </div>
         </div>
     </div>
+
     <!--{include common/js.inc}-->
     <script src="{__CTPL_URL__}js/filter.js"></script>
-    <script type="text/javascript">
-        $('.order-operate a').on('click' , function() {
-            var id = $(this).attr('data-oid');
-            var order_status = $(this).attr('data-status');
-            var url = "{url:'order-change-status-#SAT#-id-~'}" + id;
-            url = url.replace('#SAT#' , order_status);
-            console.log(url);
-        });
-    </script>
+
 </body>
 
 <!--{include common/footer.inc}-->
