@@ -95,6 +95,16 @@ class product_table extends table {
             'allow_empty_string' => true,
             'allow_null'         => true
         ],
+        'pro_cate' => [
+            'name'               => 'pro_cate',
+            'type'               => 'int',
+            'field_type'         => 'int',
+            'min'                => 0,
+            'max'                => 4294967295,
+            'label'              => 'pro_cate',
+            'allow_empty_string' => true,
+            'allow_null'         => true
+        ],
     ];
 
     /*
@@ -120,6 +130,7 @@ class product_table extends table {
         'pro_attr'    => '',
         'pro_desc'    => '',
         'pro_store'   => 0,
+        'pro_cate'   => 0,
     ];
 
     /*
@@ -135,6 +146,7 @@ class product_table extends table {
         'pro_attr'    => ['re\rgx\filter', 'char'],
         'pro_desc'    => ['re\rgx\filter', 'char'],
         'pro_store'   => ['re\rgx\filter', 'int'],
+        'pro_cate'   => ['re\rgx\filter', 'int'],
     ];
 
     /*
@@ -143,13 +155,13 @@ class product_table extends table {
       +--------------------------
     */
     public $unique_check = [
-        
+
     ];
 
     /*
       +--------------------------
       + 自定义字段验证规则
-      + @example 
+      + @example
            [
                // 字段名称
                'name'  => 'user_name',

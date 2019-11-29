@@ -14,12 +14,17 @@ class product_module extends admin_module {
         $this->set_pos('cur' , '库存概况');
         $type = $this->get('type') ? : '';
         $type = $type ? explode(',', $type) : [];
+
+        $cate = $this->get('cate') ? : '';
+        $cate = $cate ? explode(',', $cate) : [];
+
         $tab    =    RGX\OBJ('product_table');
         $filter = [
             'values'       => [
                 'skey'          => RGX\filter::text(urldecode($this->get('skey'))) ?: '',
                 'stype'         => $this->get('stype') ?: 'code',
-                'type'          => $type
+                'type'          => $type,
+                'cate'          => $cate,
             ],
             'configs'       => [
                 [
@@ -42,8 +47,15 @@ class product_module extends admin_module {
                     'type'      => 'checkbox',
                     'code'      => 'type',
                     'options'   => RGX\common_helper::$code_level,
+                    'label'     => '全部等级'
+                ],
+
+                [
+                    'type'      => 'checkbox',
+                    'code'      => 'cate',
+                    'options'   => RGX\common_helper::$cate_type,
                     'label'     => '全部类型'
-                ]
+                ],
             ],
 
         ];
@@ -65,16 +77,25 @@ class product_module extends admin_module {
             }
         }
 
+        if (!empty($cate)) {
+            $where = [];
+            foreach ($cate as $cate_id) {
+                $where[] = "pro_cate = '{$cate_id}'";
+            }
+            if (!empty($where)) {
+                $tab->where(join(' or ',$where));
+            }
+        }
+
         $pager = new RGX\page_helper($tab, $this->get('pn'), 24);
         $this->assign('list' , $tab->order('pro_id desc')->get_all());
         $this->assign('pobj', $pager->to_array());
         $this->assign('filter', $filter);
         $this->assign('pro_type' , RGX\common_helper::$code_level);
+        $this->assign('cate_type' , RGX\common_helper::$cate_type);
 
         ## 新增统计
         $statistic = RGX\product_helper::statistic();
-        // echo '<pre>';
-        // print_r($statistic);die;
         $this->assign('statistic' , $statistic);
         $this->display('product/list.tpl');
     }
@@ -97,6 +118,7 @@ class product_module extends admin_module {
 
         $this->assign('data' , $data);
         $this->assign('pro_type' , RGX\common_helper::$code_level);
+        $this->assign('cate_type' , RGX\common_helper::$cate_type);
         $this->set_pos('cur' , $cur);
         $this->display('product/add.tpl');
     }
