@@ -100,7 +100,7 @@
                                     {foreach $statistic $k $v}
                                     <tr>
                                         <td>{$v['name']}</td>
-                                        <td>{$v['store_total']}/{$v['nums']}</td>
+                                        <td>{$v['store_total']|int}/{$v['nums']}</td>
                                         <td>{$v['unuse']}</td>
                                         <td>{$v['register']}</td>
                                         <td>{$v['complate']}</td>
