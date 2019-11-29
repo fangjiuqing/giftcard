@@ -15,6 +15,7 @@
                                         <th><input type="checkbox" id="checkall" {if empty($list)} disabled="disabled" {/if} /></th>
                                         <th>兑码编号</th>
                                         <th>兑卡等级</th>
+                                        <th>代理商</th>
                                         <th>使用状态</th>
                                         <th>生成时间</th>
                                         <th>操作</th>
@@ -39,6 +40,19 @@
                                             </a>
                                         </td>
                                         <td>{$code_level[$v['code_level']]}</td>
+                                        <td>
+                                            {if $v['agent_id']}
+                                            <a href="{url:'agent-add-id-%d' , $v['agent_id']}">
+                                                {foreach $agents $sk $sv}
+                                                    {if $sv['agent_id'] == $v['agent_id']}
+                                                    {$sv['agent_fullname']}
+                                                    {/if}
+                                                {/foreach}
+                                            </a>
+                                            {else}
+                                            无
+                                            {/if}
+                                        </td>
                                         <td>
                                             {$code_status[$v['code_status']]}
                                         </td>

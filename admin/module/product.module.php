@@ -15,8 +15,8 @@ class product_module extends admin_module {
         $type = $this->get('type') ? : '';
         $type = $type ? explode(',', $type) : [];
 
-        $cate = $this->get('cate') ? : '';
-        $cate = $cate ? explode(',', $cate) : [];
+        // $cate = $this->get('cate') ? : '';
+        // $cate = $cate ? explode(',', $cate) : [];
 
         $tab    =    RGX\OBJ('product_table');
         $filter = [
@@ -24,7 +24,7 @@ class product_module extends admin_module {
                 'skey'          => RGX\filter::text(urldecode($this->get('skey'))) ?: '',
                 'stype'         => $this->get('stype') ?: 'code',
                 'type'          => $type,
-                'cate'          => $cate,
+                //'cate'          => $cate,
             ],
             'configs'       => [
                 [
@@ -50,12 +50,12 @@ class product_module extends admin_module {
                     'label'     => '全部等级'
                 ],
 
-                [
-                    'type'      => 'checkbox',
-                    'code'      => 'cate',
-                    'options'   => RGX\common_helper::$cate_type,
-                    'label'     => '全部类型'
-                ],
+                // [
+                //     'type'      => 'checkbox',
+                //     'code'      => 'cate',
+                //     'options'   => RGX\common_helper::$cate_type,
+                //     'label'     => '全部类型'
+                // ],
             ],
 
         ];
@@ -92,7 +92,7 @@ class product_module extends admin_module {
         $this->assign('pobj', $pager->to_array());
         $this->assign('filter', $filter);
         $this->assign('pro_type' , RGX\common_helper::$code_level);
-        $this->assign('cate_type' , RGX\common_helper::$cate_type);
+        //$this->assign('cate_type' , RGX\common_helper::$cate_type);
 
         ## 新增统计
         $statistic = RGX\product_helper::statistic();
@@ -118,7 +118,7 @@ class product_module extends admin_module {
 
         $this->assign('data' , $data);
         $this->assign('pro_type' , RGX\common_helper::$code_level);
-        $this->assign('cate_type' , RGX\common_helper::$cate_type);
+        //$this->assign('cate_type' , RGX\common_helper::$cate_type);
         $this->set_pos('cur' , $cur);
         $this->display('product/add.tpl');
     }

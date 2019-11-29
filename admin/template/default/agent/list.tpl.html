@@ -12,14 +12,14 @@
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th><input type="checkbox" id="checkall" {if empty($list)} disabled="disabled" {/if} /></th>
-                                        <th>代理编号</th>
-                                        <th>代理姓名</th>
-                                        <th>代理手机号</th>
-                                        <th>代理级别</th>
-                                        <th>代理总卡数</th>
-                                        <th>代理卡详情</th>
-                                        <th>操作</th>
+                                        <th width="5%"><input type="checkbox" id="checkall" {if empty($list)} disabled="disabled" {/if} /></th>
+                                        <th width="10%">代理编号</th>
+                                        <th width="10%">代理姓名</th>
+                                        <th width="10%">代理手机号</th>
+                                        <th width="10%">代理级别</th>
+                                        <th width="10%">代理总卡数</th>
+                                        <th width="30%">代理卡详情</th>
+                                        <th width="5%">操作</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -45,7 +45,7 @@
                                         <td>{$v['agent_order_nums']|int}</td>
                                         <td>
                                             {foreach $v['agent_summary'] $kk $vv}
-                                            <p>
+                                            <p style="width: 45%; display: inline-block;">
                                                 {$vv['name']} : {$vv['nums']}
                                             </p>
                                             {/foreach}
