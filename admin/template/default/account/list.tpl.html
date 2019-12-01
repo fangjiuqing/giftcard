@@ -8,15 +8,14 @@
                 <div class="ibox float-e-margins">
                     <!--{include common/crumb.inc}-->
                     <div class="ibox-content">
-                        <!--{include account/filter.inc}-->
+
                         <div class="table-responsive">
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
                                         <th>登录账户</th>
                                         <th>管理昵称</th>
-                                        <th width="15%" class="text-center">权限组别</th>
-                                        <th width="15%" class="text-center">创建日期</th>
+                                        <!-- <th width="15%" class="text-center">权限组别</th> -->
                                         <th width="15%" class="text-center">最近登录</th>
                                         <th width="80" class="text-center">操作</th>
                                     </tr>
@@ -32,10 +31,9 @@
                                     {foreach $list $k $v}
                                     <tr id="item-{$v['admin_id']}">
                                         <td>{$v['admin_account']}</td>
-                                        <td>{$v['admin_nickname']}</td>
-                                        <td class="text-center">{$v['group_name']}</td>
-                                        <td class="text-center">{$v['admin_create_date']|date,Y-m-d}</td>
-                                        <td class="text-center">{$v['admin_lastlogin_date']|date,Y-m-d H:i}</td>
+                                        <td>{$v['admin_realname']}</td>
+                                        <td class="text-center hide">{$v['group_name']}</td>
+                                        <td class="text-center">{$v['admin_lastlogin']|date,Y-m-d H:i}</td>
 
                                         <td class="text-center">
                                             <a class="btn btn-xs btn-success" title="编辑{$v['admin_nickname']}" href="{url:'account-add-id-%d' , $v['admin_id']}"><i class="fa fa-pencil"></i></a>
