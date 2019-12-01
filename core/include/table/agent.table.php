@@ -3,7 +3,7 @@
   +-------------------------------------------------------
   + agent 表模型
   + ------------------------------------------------------
-  + @update 2019-11-25 13:35:44
+  + @update 2019-12-01 18:42:06
   + @desc 若修改了表结构, 请使用下面的命令更新模型文件
   + @cmd /bin/php core/rgx/build.php -t -d=/data/htdocs/emera_tech/giftcard/admin -f=1
   +-------------------------------------------------------
@@ -86,6 +86,16 @@ class agent_table extends table {
             'allow_empty_string' => true,
             'allow_null'         => true
         ],
+        'remark' => [
+            'name'               => 'remark',
+            'type'               => 'char',
+            'field_type'         => 'text',
+            'min'                => 0,
+            'max'                => 65535,
+            'label'              => 'remark',
+            'allow_empty_string' => true,
+            'allow_null'         => true
+        ],
     ];
 
     /*
@@ -110,6 +120,7 @@ class agent_table extends table {
         'agent_code'          => '',
         'agent_create_time'   => '',
         'agent_level'         => 0,
+        'remark'              => '',
     ];
 
     /*
@@ -123,6 +134,7 @@ class agent_table extends table {
         'agent_mobile'        => ['re\rgx\filter', 'char'],
         'agent_code'          => ['re\rgx\filter', 'char'],
         'agent_level'         => ['re\rgx\filter', 'int'],
+        'remark'              => ['re\rgx\filter', 'char'],
     ];
 
     /*
@@ -137,7 +149,7 @@ class agent_table extends table {
     /*
       +--------------------------
       + 自定义字段验证规则
-      + @example 
+      + @example
            [
                // 字段名称
                'name'  => 'user_name',

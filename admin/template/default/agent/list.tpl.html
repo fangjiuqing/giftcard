@@ -19,6 +19,7 @@
                                         <th width="10%">代理级别</th>
                                         <th width="10%">代理总卡数</th>
                                         <th width="30%">代理卡详情</th>
+                                        <th width="10%">备注</th>
                                         <th width="5%">操作</th>
                                     </tr>
                                 </thead>
@@ -50,7 +51,7 @@
                                             </p>
                                             {/foreach}
                                         </td>
-
+                                        <td>{$v['remark']}</td>
                                         <td class="agent-operate">
                                             <a href="{url:'agent-del-id-%d' , $v['agent_id']}" data-confirm="操作不可撤销，确认吗？" data-target="#item-{$v['agent_id']}" class="btn btn-xs btn-danger btn-delete">
                                                 <i class="fa fa-trash-o"></i>

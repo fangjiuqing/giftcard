@@ -3,7 +3,7 @@
   +-------------------------------------------------------
   + codes 表模型
   + ------------------------------------------------------
-  + @update 2019-11-25 13:35:44
+  + @update 2019-12-01 18:42:06
   + @desc 若修改了表结构, 请使用下面的命令更新模型文件
   + @cmd /bin/php core/rgx/build.php -t -d=/data/htdocs/emera_tech/giftcard/admin -f=1
   +-------------------------------------------------------
@@ -86,6 +86,16 @@ class codes_table extends table {
             'allow_empty_string' => true,
             'allow_null'         => true
         ],
+        'cate' => [
+            'name'               => 'cate',
+            'type'               => 'char',
+            'field_type'         => 'varchar',
+            'min'                => 0,
+            'max'                => 50,
+            'label'              => 'cate',
+            'allow_empty_string' => true,
+            'allow_null'         => true
+        ],
     ];
 
     /*
@@ -110,6 +120,7 @@ class codes_table extends table {
         'code_level'  => 1,
         'create_time' => '',
         'agent_id'    => 0,
+        'cate'        => '',
     ];
 
     /*
@@ -123,6 +134,7 @@ class codes_table extends table {
         'code_status' => ['re\rgx\filter', 'int'],
         'code_level'  => ['re\rgx\filter', 'int'],
         'agent_id'    => ['re\rgx\filter', 'int'],
+        'cate'        => ['re\rgx\filter', 'char'],
     ];
 
     /*

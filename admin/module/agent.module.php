@@ -143,6 +143,15 @@ class agent_module extends admin_module {
         $ret['code']    =    1;
         if ( !empty($data) ) {
             $agent_id    =    intval($data['agent_id']) ? : 0;
+            if ( $agent_id ) {
+                $ori_agent = RGX\OBJ('agent_table')->where("agent_id = {$agent_id}")->get();
+                $agent_remark = $ori_agent['remark'] . PHP_EOL;
+
+                if ( $data['remark'] ) {
+                    $data['remark'] = $agent_remark . $data['remark'];
+                }
+            }
+
             $tab    =    RGX\OBJ('agent_table');
             $data['agent_create_time'] = date('Y-m-d H:i:s');
             $tab->load($data);

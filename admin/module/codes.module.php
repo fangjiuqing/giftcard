@@ -158,6 +158,15 @@ class codes_module extends admin_module {
         $tab = RGX\OBJ('codes_table');
 
         if ( $tab->exec($sql) ) {
+
+            ## 记入时间
+            $ori_agent = RGX\OBJ('agent_table')->where("agent_id = {$agent_id}")->get();
+            $agent_remark = trim($ori_agent['remark']) . PHP_EOL;
+            $remark = date('Y-m-d H:i') . '分配了' . count($codes) . '张卡';
+            $sql = sprintf("UPDATE agent_table SET remark = '%s' WHERE agent_id = %d" , $agent_remark . $remark , $agent_id);
+            $tab_agt = RGX\OBJ('agent_table');
+            $tab_agt->exec($sql);
+
             $result['code'] = 0;
             $result['msg'] = '操作成功';
         }
