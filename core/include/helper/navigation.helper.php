@@ -30,6 +30,14 @@ class navigation_helper extends rgx {
                 ['url' => 'agent-index', 'name' => '代理列表'],
                 ['url' => 'agent-add', 'name' => '新增代理'],
             ],
+        ],
+        [
+            'name'   =>    '账号管理',
+            'icon'   =>    'fa fa-user',
+            'urls'    =>   [
+                ['url' => 'account-list', 'name' => '账号列表'],
+                ['url' => 'account-add', 'name' => '新增账号'],
+            ],
         ]
     ];
 
