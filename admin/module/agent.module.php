@@ -49,6 +49,15 @@ class agent_module extends admin_module {
             ]
         ];
 
+        $aid = intval($this->get('aid'));
+        if ( $aid ) {
+            $agent = RGX\OBJ('agent_table')->where('agent_id = ' . $aid);
+
+            if ( !empty($agent) ) {
+                $filter['values']['skey'] = $agent['agent_code'];
+            }
+        }
+
         if (!empty($filter['values']['skey'])) {
             // 按编号检索
             if ($filter['values']['stype'] == 'name') {
@@ -100,9 +109,10 @@ class agent_module extends admin_module {
                 }
             }
             $row['agent_summary'] = $init;
+
+            $row['remark'] = str_replace('#' , '<br />' , $row['remark']);
             return $row;
         });
-//echo '<pre>';print_r($tab->get_all());die;
         $pager = new RGX\page_helper($tab, $this->get('pn'), 24);
         $this->assign('list' , $tab->get_all());
         $this->assign('pobj', $pager->to_array());
@@ -124,6 +134,8 @@ class agent_module extends admin_module {
             $data    =    RGX\OBJ('agent_table')->get(['agent_id' => $id]);
             if ( !empty($data) ) {
                 $cur =    '编辑【' . $data['agent_no'] . '】';
+
+                $data['remark'] = str_replace('#' , PHP_EOL , $data['remark']);
             }
         }
 
@@ -142,13 +154,14 @@ class agent_module extends admin_module {
         $data           =    $this->get('data' , 'p');
         $ret['code']    =    1;
         if ( !empty($data) ) {
+            if ( empty($data['agent_code']) ) {
+                $data['agent_code'] = 'AGT' . date('ymdHi');
+            }
+
             $agent_id    =    intval($data['agent_id']) ? : 0;
             if ( $agent_id ) {
-                $ori_agent = RGX\OBJ('agent_table')->where("agent_id = {$agent_id}")->get();
-                $agent_remark = $ori_agent['remark'] . PHP_EOL;
-
                 if ( $data['remark'] ) {
-                    $data['remark'] = $agent_remark . $data['remark'];
+                    $data['remark'] = str_replace(PHP_EOL , '#' , $data['remark']);
                 }
             }
 

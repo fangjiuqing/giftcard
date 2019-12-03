@@ -161,8 +161,8 @@ class codes_module extends admin_module {
 
             ## 记入时间
             $ori_agent = RGX\OBJ('agent_table')->where("agent_id = {$agent_id}")->get();
-            $agent_remark = trim($ori_agent['remark']) . PHP_EOL;
-            $remark = date('Y-m-d H:i') . '分配了' . count($codes) . '张卡';
+            $agent_remark = trim($ori_agent['remark']);
+            $remark = '#' .date('Y年m月d日') . '分配了' . count($codes) . '张卡#';
             $sql = sprintf("UPDATE agent_table SET remark = '%s' WHERE agent_id = %d" , $agent_remark . $remark , $agent_id);
             $tab_agt = RGX\OBJ('agent_table');
             $tab_agt->exec($sql);

@@ -20,6 +20,7 @@
                                         <th>操作类型</th>
                                         <th>备注说明</th>
                                         <th>操作时间</th>
+                                        <th>删除</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -44,8 +45,18 @@
                                             {$v['op_type']}
                                             </span>
                                         </td>
-                                        <td>{$v['op_remark']}</td>
+                                        <td>
+                                            {$v['op_remark']}
+                                            <a href="javascript:;" class="modify-log" data-ori="{$v['op_remark']}" data-logid="{$v['log_id']}">
+                                                <i class="fa fa-pencil"></i>
+                                            </a>
+                                        </td>
                                         <td>{$v['op_time']}</td>
+                                        <td>
+                                            <a href="{url:'product-logdel-id-%d' , $v['log_id']}" data-confirm="产品和库存日志会同时删除，此操作不可撤销，确认吗？" data-target="#item-{$v['log_id']}" class="btn btn-xs btn-danger btn-delete">
+                                                <i class="fa fa-trash-o"></i>
+                                            </a>
+                                        </td>
                                     </tr>
                                     {/foreach}
                                 </tbody>
@@ -58,15 +69,70 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="modify-log" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">修改</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="{url:'@%s-save' , $_MODULE}" method="post" id="sform" class="form-horizontal">
+                        <input type="hidden" id="log_id" />
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <textarea class="form-control" id="op_remark"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="log_submit">确定</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
     <!--{include common/js.inc}-->
     <script src="{__CTPL_URL__}js/filter.js"></script>
     <script type="text/javascript">
-        $('.order-operate a').on('click' , function() {
-            var id = $(this).attr('data-oid');
-            var order_status = $(this).attr('data-status');
-            var url = "{url:'order-change-status-#SAT#-id-~'}" + id;
-            url = url.replace('#SAT#' , order_status);
-            console.log(url);
+        $('.modify-log').on('click' , function() {
+            var id = $(this).attr('data-logid');
+            var remark = $(this).attr('data-ori');
+
+            $('#log_id').val(id);
+            $('#op_remark').val(remark);
+            $('#modify-log').modal();
+        });
+
+        /**
+         * 修改提交
+         * @param  {[type]} ) {                   } [description]
+         * @return {[type]}   [description]
+         */
+        $('#log_submit').on('click' , function() {
+            var id = $('#log_id').val();
+            var remark = $('#op_remark').val();
+
+            $.ajax({
+                'url' : "{url:'product-logsave-~'}",
+                'type': "POST",
+                'data': "log[log_id]=" + id + "&log[op_remark]=" + remark,
+                success: function(data) {
+                    if (data.code == 0 ) {
+                        RGX.msg('操作成功');
+                        location.href = location.href;
+                    }else{
+                        RGX.msg(data.msg);
+                    }
+                },
+                error: function (data) {
+                    RGX.msg('服务端异常');
+                    return false;
+                }
+            });
         });
     </script>
 </body>

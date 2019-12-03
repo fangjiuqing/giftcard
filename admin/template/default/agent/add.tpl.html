@@ -8,6 +8,7 @@
     <div class="wrapper wrapper-content animated fadeInRight">
         <form action="{url:'@%s-save' , $_MODULE}" method="post" id="sform" class="form-horizontal">
             <input type="hidden" name="data[agent_id]" value="{$data['agent_id']|int}" />
+            <input type="hidden" name="data[agent_code]" value="{$data['agent_code'] ?: ''}" />
             <!--{include agent/add_base.inc}-->
 
             <div class="hr-line-dashed"></div>

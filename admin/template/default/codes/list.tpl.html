@@ -42,7 +42,7 @@
                                         <td>{$code_level[$v['code_level']]}</td>
                                         <td>
                                             {if $v['agent_id']}
-                                            <a href="{url:'agent-add-id-%d' , $v['agent_id']}">
+                                            <a href="{url:'agent-index-stype-no-aid-%s' , $v['agent_id']}">
                                                 {foreach $agents $sk $sv}
                                                     {if $sv['agent_id'] == $v['agent_id']}
                                                     {$sv['agent_fullname']}

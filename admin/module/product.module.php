@@ -217,6 +217,10 @@ class product_module extends admin_module {
         $log           =    $this->get('log' , 'p');
         $ret['code']   =    1;
         if ( !empty($data) ) {
+            if ( empty($data['pro_no']) ) {
+                $data['pro_no'] = 'PRO' . date('ymdHi');
+            }
+
             $pro_id    =    intval($data['pro_id']) ? : 0;
             $tab    =    RGX\OBJ('product_table');
             $tab->load($data);
@@ -285,6 +289,41 @@ class product_module extends admin_module {
         $this->assign('data' , $data);
 
         $this->display('product/log.tpl');
+    }
+
+    /**
+     * [删除]
+     * @method del_action
+     * @return [type]     [description]
+     */
+    public function logdel_action () {
+        $id    =    intval($this->get('id'));
+        $ret   =    ['code' => 1];
+        if ( $id ) {
+            $tab    =    RGX\OBJ('store_log_table');
+            $ret    =    $tab->delete(['log_id' => $id]);
+
+            $this->ajaxout($ret);
+        }
+        $this->ajaxout($ret);
+    }
+
+    /**
+     * [logsave_action description]
+     * @return [type] [description]
+     */
+    public function logsave_action () {
+        $log = $this->get('log' , 'p');
+
+        $ret   =    ['code' => 1];
+        if ( $log ) {
+            $log['op_admin'] = $this->admin['admin_realname'];
+            $log['op_time'] = date('Y-m-d H:i:s');
+            $log_tab = RGX\OBJ('store_log_table');
+            $log_tab->load($log);
+            $ret = $log_tab->save();
+        }
+        $this->ajaxout($ret);
     }
 
 } //Class End

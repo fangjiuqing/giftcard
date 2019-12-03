@@ -8,7 +8,9 @@
     <div class="wrapper wrapper-content animated fadeInRight">
         <form action="{url:'@%s-save' , $_MODULE}" method="post" id="sform" class="form-horizontal">
             <input type="hidden" name="data[pro_id]" value="{$data['pro_id']|int}" />
+            <input type="hidden" name="data[pro_no]" value="{$data['pro_no'] ?: ''}" />
             <input type="hidden" name="log[ori_store]" value="{$data['pro_store']|int}" />
+
             <!--{include product/add_base.inc}-->
 
             <div class="hr-line-dashed"></div>

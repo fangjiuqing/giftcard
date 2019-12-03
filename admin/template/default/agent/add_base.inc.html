@@ -10,7 +10,7 @@
             <div class="ibox-content">
                 <div class="row">
                     <div class="col-sm-12">
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label class="col-sm-3 control-label">代理编号</label>
                             <div class="col-sm-9">
                                 <div class="input-group">
@@ -18,7 +18,7 @@
                                     <span class="input-group-addon {if !$data['agent_code']} generate-sn {/if}" data-prefix="AGT">生成</span>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="form-group">
                             <label class="col-sm-3 control-label">代理姓名</label>
@@ -49,7 +49,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">备注</label>
                             <div class="col-sm-9">
-                                <textarea class="form-control" name="data[remark]">{$data['agent_mobile'] ?: ''}</textarea>
+                                <textarea class="form-control" name="data[remark]">{$data['remark'] ?: ''}</textarea>
                             </div>
                         </div>
 
