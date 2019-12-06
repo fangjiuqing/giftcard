@@ -3,7 +3,7 @@
   +-------------------------------------------------------
   + store_log 表模型
   + ------------------------------------------------------
-  + @update 2019-12-01 18:42:07
+  + @update 2019-12-06 19:46:50
   + @desc 若修改了表结构, 请使用下面的命令更新模型文件
   + @cmd /bin/php core/rgx/build.php -t -d=/data/htdocs/emera_tech/giftcard/admin -f=1
   +-------------------------------------------------------
@@ -52,6 +52,16 @@ class store_log_table extends table {
             'min'                => 0,
             'max'                => 4294967295,
             'label'              => '原来库存',
+            'allow_empty_string' => true,
+            'allow_null'         => true
+        ],
+        'op_store' => [
+            'name'               => 'op_store',
+            'type'               => 'int',
+            'field_type'         => 'int',
+            'min'                => 0,
+            'max'                => 4294967295,
+            'label'              => '操作数量',
             'allow_empty_string' => true,
             'allow_null'         => true
         ],
@@ -106,6 +116,16 @@ class store_log_table extends table {
             'allow_empty_string' => true,
             'allow_null'         => true
         ],
+        'op_status' => [
+            'name'               => 'op_status',
+            'type'               => 'char',
+            'field_type'         => 'varchar',
+            'min'                => 0,
+            'max'                => 30,
+            'label'              => '状态',
+            'allow_empty_string' => true,
+            'allow_null'         => true
+        ],
     ];
 
     /*
@@ -127,11 +147,13 @@ class store_log_table extends table {
         'log_id'      => 0,
         'pro_id'      => 0,
         'ori_store'   => 0,
+        'op_store'    => 0,
         'opd_store'   => 0,
         'op_type'     => '',
         'op_time'     => '',
         'op_remark'   => '',
         'op_admin'    => '',
+        'op_status'   => '',
     ];
 
     /*
@@ -143,10 +165,12 @@ class store_log_table extends table {
         'log_id'      => ['re\rgx\filter', 'int'],
         'pro_id'      => ['re\rgx\filter', 'int'],
         'ori_store'   => ['re\rgx\filter', 'int'],
+        'op_store'    => ['re\rgx\filter', 'int'],
         'opd_store'   => ['re\rgx\filter', 'int'],
         'op_type'     => ['re\rgx\filter', 'char'],
         'op_remark'   => ['re\rgx\filter', 'char'],
         'op_admin'    => ['re\rgx\filter', 'char'],
+        'op_status'   => ['re\rgx\filter', 'char'],
     ];
 
     /*

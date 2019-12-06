@@ -87,6 +87,26 @@ class product_module extends admin_module {
             }
         }
 
+        $store_log_table = RGX\OBJ('store_log_table');
+
+        $yesday = date('Y-m-d' , strtotime('-1 days'));
+        $today = date('Y-m-d');
+        $tab->map(function($row) use ( $store_log_table ,$yesday , $today ) {
+            $res = $store_log_table->fields("SUM(op_store) as total")->where("pro_id = " . $row['pro_id'])->where("op_type = '增加'")->get();
+            $row['buy_count'] = (int)$res['total'];
+            $res = $store_log_table->fields("SUM(op_store) as total")->where("pro_id = " . $row['pro_id'])->where("op_type = '减少'")->get();
+            $row['sales_count']  = (int)$res['total'];
+
+            // 昨日销售
+            $res = $store_log_table->fields("SUM(op_store) as total")->where("pro_id = " . $row['pro_id'])->where("op_type = '减少'")->where("op_time between '" . $yesday . " 00:00:01' AND '" . $yesday . " 23:59:59'")->get();
+            $row['yesday_sales']  = (int)$res['total'];
+
+            // 今日销售
+            $res = $store_log_table->fields("SUM(op_store) as total")->where("pro_id = " . $row['pro_id'])->where("op_type = '减少'")->where("op_time between '" . $today . " 00:00:01' AND '" . $today . " 23:59:59'")->get();
+            $row['today_sales']  = (int)$res['total'];
+            return $row;
+        });
+
         $pager = new RGX\page_helper($tab, $this->get('pn'), 24);
         $this->assign('list' , $tab->order('pro_id desc')->get_all());
         $this->assign('pobj', $pager->to_array());
@@ -184,7 +204,7 @@ class product_module extends admin_module {
                 $this->ajaxout($ret);
             }
 
-            if ( !$log['opd_store'] ) {
+            if ( $log['opd_store'] < 0 ) {
                 $ret['msg'] = '调整后库存为负数，无法执行';
                 $this->ajaxout($ret);
             }
@@ -196,6 +216,7 @@ class product_module extends admin_module {
                 $log['op_time'] = date('Y-m-d H:i:s');
                 $log['op_remark'] .= ',' . $log['op_type'] . '了' . $op_num;
                 $log['op_admin'] = $_SESSION['admin']['admin_realname'];
+                $log['op_store'] = $op_num;
                 $log_tab = RGX\OBJ('store_log_table');
                 $log_tab->load($log);
                 $ret = $log_tab->save();
@@ -233,9 +254,11 @@ class product_module extends admin_module {
                 if ( $log['ori_store'] < $data['pro_store'] ) {
                     $log['op_remark'] = '增加了'. ($data['pro_store'] - $log['ori_store']);
                     $log['op_type'] = '增加';
+                    $log['op_store'] = $data['pro_store'] - $log['ori_store'];
                 }else{
                     $log['op_remark'] = '减少了' . ( $log['ori_store'] - $data['pro_store'] );
                     $log['op_type'] = '减少';
+                    $log['op_store'] = $log['ori_store'] - $data['pro_store'];
                 }
                 $log['pro_id'] = $pro_id;
                 $log['opd_store'] = $data['pro_store'];

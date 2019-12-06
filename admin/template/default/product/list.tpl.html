@@ -17,9 +17,13 @@
                                         <th>产品名称</th>
                                         <th>归集卡种</th>
                                         <!-- <th>产品类目</th> -->
+                                        <th>累计采购</th>
+                                        <th>累计销售</th>
                                         <th>库存数量</th>
                                         <th>库存日志</th>
                                         <th>规格属性</th>
+                                        <th>昨日销售</th>
+                                        <th>今日销售</th>
                                         <th>操作</th>
                                     </tr>
                                 </thead>
@@ -44,6 +48,8 @@
                                         <td>{$v['pro_name']}</td>
                                         <td>{$pro_type[$v['pro_type']]}</td>
                                         <!-- <td>{if $v['pro_cate']}{$cate_type[$v['pro_cate']]}{else}未分类{/if}</td> -->
+                                        <td>{$v['buy_count']}</td>
+                                        <td>{$v['sales_count']}</td>
                                         <td>
                                             {if $v['pro_store'] < 200}
                                             <span class="btn btn-xs btn-danger">{$v['pro_store']}</span>
@@ -57,6 +63,8 @@
                                             </a>
                                         </td>
                                         <td>{$v['pro_attr']}</td>
+                                        <td>{$v['yesday_sales']}</td>
+                                        <td>{$v['today_sales']}</td>
                                         <td>
                                             <a href="{url:'product-store-id-%d' , $v['pro_id']}" class="btn btn-xs btn-primary">
                                                 <i class="fa fa-pencil"></i>调库存

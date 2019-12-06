@@ -18,6 +18,7 @@
                                         <th>操作后库存</th>
                                         <th>操作人</th>
                                         <th>操作类型</th>
+                                        <th>付款状态</th>
                                         <th>备注说明</th>
                                         <th>操作时间</th>
                                         <th>删除</th>
@@ -37,17 +38,20 @@
                                         <td>{$v['opd_store']}</td>
                                         <td>{$v['op_admin']}</td>
                                         <td>
-                                            {if $v['op_type'] == '增加'}
+                                            {$v['op_type']}
+                                        </td>
+                                        <td>
+                                            {if $v['op_status'] == '未付'}
                                             <span class="btn btn-xs btn-danger">
                                             {else}
                                             <span class="btn btn-xs btn-success">
                                             {/if}
-                                            {$v['op_type']}
+                                            {$v['op_status']}
                                             </span>
                                         </td>
                                         <td>
                                             {$v['op_remark']}
-                                            <a href="javascript:;" class="modify-log" data-ori="{$v['op_remark']}" data-logid="{$v['log_id']}">
+                                            <a href="javascript:;" class="modify-log" data-ori="{$v['op_remark']}" data-logid="{$v['log_id']}" data-status="{$v['op_status']}">
                                                 <i class="fa fa-pencil"></i>
                                             </a>
                                         </td>
@@ -81,7 +85,17 @@
                     <form action="{url:'@%s-save' , $_MODULE}" method="post" id="sform" class="form-horizontal">
                         <input type="hidden" id="log_id" />
                         <div class="form-group">
-                            <div class="col-sm-12">
+                            <label class="col-sm-3 control-label">付款状态</label>
+                            <div class="col-sm-9">
+                                <select name="log[op_status]" id="op_status" class="form-control">
+                                    <option value="已付">已付</option>
+                                    <option value="未付">未付</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">备注说明</label>
+                            <div class="col-sm-9">
                                 <textarea class="form-control" id="op_remark"></textarea>
                             </div>
                         </div>
@@ -101,9 +115,11 @@
         $('.modify-log').on('click' , function() {
             var id = $(this).attr('data-logid');
             var remark = $(this).attr('data-ori');
+            var status = $(this).attr('data-status');
 
             $('#log_id').val(id);
             $('#op_remark').val(remark);
+            $('#op_status').val(status);
             $('#modify-log').modal();
         });
 
@@ -115,11 +131,12 @@
         $('#log_submit').on('click' , function() {
             var id = $('#log_id').val();
             var remark = $('#op_remark').val();
+            var status = $('#op_status').find("option:selected").val();
 
             $.ajax({
                 'url' : "{url:'product-logsave-~'}",
                 'type': "POST",
-                'data': "log[log_id]=" + id + "&log[op_remark]=" + remark,
+                'data': "log[log_id]=" + id + "&log[op_remark]=" + remark + "&log[op_status]=" + status,
                 success: function(data) {
                     if (data.code == 0 ) {
                         RGX.msg('操作成功');
