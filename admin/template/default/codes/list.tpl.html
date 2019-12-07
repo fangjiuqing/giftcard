@@ -54,7 +54,15 @@
                                             {/if}
                                         </td>
                                         <td>
+                                            {if $v['code_status'] == 2}
+                                            <span class="label label-danger">
+                                            {else if $v['code_status'] == 3}
+                                            <span class="label label-success">
+                                            {else}
+                                            <span class="label label-default">
+                                            {/if}
                                             {$code_status[$v['code_status']]}
+                                            </span>
                                         </td>
                                         <td>{$v['create_time']}</td>
                                         <td class="agent-operate">
